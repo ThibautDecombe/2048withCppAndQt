@@ -2,61 +2,259 @@ import QtQuick 2.6
 
 Rectangle {
     id: gameWindow
-
-    width: 360
-    height: 360
-    color: "#d0e2ca"
-    radius: 13
-    property alias gameTable: gameTable
-    property alias rect1: rect1
-    property alias gameTitle: gameTitle
-
-    Text {
-        id: gameTitle
-        x: 8
-        width: 50
-        height: 30
-        text: qsTr("2048")
-        font.family: "Verdana"
-        verticalAlignment: Text.AlignVCenter
-        horizontalAlignment: Text.AlignHCenter
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: parent.top
-        anchors.topMargin: 10
-        font.pixelSize: 18
-    }
+    width: 270
+    height: 270
+    color: "#98fb83"
+    property alias textTile1: textTile1
+    property alias rectangle: rectangle
+    property alias tile1: tile1
+    property alias tile2: tile2
 
     Rectangle {
-        id: gameTable
-        x: 60
-        y: 60
-        width: 240
-        height: 240
-        color: "#00000000"
-        radius: 5
-        border.color: "#57cd57"
+        id: rectangle
+        x: 80
+        y: 80
+        width: 250
+        height: 250
+        color: "#007615"
+        radius: 15
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
 
         Rectangle {
-            id: rect1
+            id: tile1
+            x: gameBoard.posX
+            y: gameBoard.posY
+            Behavior on x { PropertyAnimation { duration: 100}}
+            Behavior on y { PropertyAnimation { duration: 100}}
+            width: 50
+            height: 50
+            color: "#04f211"
+            radius: 5
+            z: 1
+            focus: true
+
+            Text {
+                id: textTile1
+                color: "#0a4403"
+                text: gameBoard.tileNb
+                z: 2
+                fontSizeMode: Text.FixedSize
+                textFormat: Text.AutoText
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.pixelSize: 24
+            }
+        }
+
+        Rectangle {
+            id: tile2
+            x: gameBoard.posX
+            y: gameBoard.posY
+            Behavior on x { PropertyAnimation { duration: 100}}
+            Behavior on y { PropertyAnimation { duration: 100}}
+            width: 50
+            height: 50
+            color: "#04f211"
+            radius: 5
+            z: 2
+            focus: true
+
+            Text {
+                id: textTile2
+                color: "#0a4403"
+                text: gameBoard.tileNb
+                z: 2
+                fontSizeMode: Text.FixedSize
+                textFormat: Text.AutoText
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.pixelSize: 24
+            }
+        }
+
+        Rectangle {
+            id: rectBack1
             x: 10
             y: 10
             width: 50
             height: 50
-            color: "#5ceb54"
-            radius: 3
-            focus: true
+            color: "#054c0b"
+            radius: 5
+        }
 
-            Keys.onPressed: {
-                switch (event.key) {
-                  case Qt.Key_Up:
-                    y:10
+        Rectangle {
+            id: rectBack2
+            x: 10
+            y: 70
+            width: 50
+            height: 50
+            color: "#054c0b"
+            radius: 5
+        }
+
+        Rectangle {
+            id: rectBack3
+            x: 10
+            y: 130
+            width: 50
+            height: 50
+            color: "#054c0b"
+            radius: 5
+        }
+
+        Rectangle {
+            id: rectBack4
+            x: 10
+            y: 190
+            width: 50
+            height: 50
+            color: "#054c0b"
+            radius: 5
+        }
+
+        Rectangle {
+            id: rectBack5
+            x: 70
+            y: 10
+            width: 50
+            height: 50
+            color: "#054c0b"
+            radius: 5
+        }
+
+        Rectangle {
+            id: rectBack6
+            x: 70
+            y: 70
+            width: 50
+            height: 50
+            color: "#054c0b"
+            radius: 5
+        }
+
+        Rectangle {
+            id: rectBack7
+            x: 70
+            y: 130
+            width: 50
+            height: 50
+            color: "#054c0b"
+            radius: 5
+        }
+
+        Rectangle {
+            id: rectBack8
+            x: 70
+            y: 190
+            width: 50
+            height: 50
+            color: "#054c0b"
+            radius: 5
+        }
+
+        Rectangle {
+            id: rectBack9
+            x: 130
+            y: 10
+            width: 50
+            height: 50
+            color: "#054c0b"
+            radius: 5
+        }
+
+        Rectangle {
+            id: rectBack10
+            x: 130
+            y: 70
+            width: 50
+            height: 50
+            color: "#054c0b"
+            radius: 5
+        }
+
+        Rectangle {
+            id: rectBack11
+            x: 130
+            y: 130
+            width: 50
+            height: 50
+            color: "#054c0b"
+            radius: 5
+        }
+
+        Rectangle {
+            id: rectBack12
+            x: 130
+            y: 190
+            width: 50
+            height: 50
+            color: "#054c0b"
+            radius: 5
+        }
+
+        Rectangle {
+            id: rectBack13
+            x: 190
+            y: 10
+            width: 50
+            height: 50
+            color: "#054c0b"
+            radius: 5
+        }
+
+        Rectangle {
+            id: rectBack14
+            x: 190
+            y: 70
+            width: 50
+            height: 50
+            color: "#054c0b"
+            radius: 5
+        }
+
+        Rectangle {
+            id: rectBack15
+            x: 190
+            y: 130
+            width: 50
+            height: 50
+            color: "#054c0b"
+            radius: 5
+        }
+
+        Rectangle {
+            id: rectBack16
+            x: 190
+            y: 190
+            width: 50
+            height: 50
+            color: "#054c0b"
+            radius: 5
+        }
+
+        Keys.onPressed: {
+            switch (event.key) {
+               case Qt.Key_Right:
+                   console.log("KeyRight pressed");
+                   gameBoard.moveRight();
+                   break;
+                case Qt.Key_Left:
+                   console.log("KeyLeft pressed");
+                   gameBoard.moveLeft();
+                   break;
+                case Qt.Key_Up:
+                    console.log("KeyUp pressed");
+                    gameBoard.moveUp();
                     break;
-                  case Qt.Key_Down:
-                    y:50
+                case Qt.Key_Down:
+                    console.log("KeyDown pressed");
+                    gameBoard.moveDown();
                     break;
-            }
             }
         }
     }

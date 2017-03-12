@@ -29,7 +29,7 @@ Rectangle {
             Behavior on y { PropertyAnimation { duration: 100}}
             width: 50
             height: 50
-            color: "#04f211"
+            color: gameBoard.tileColor
             radius: 5
             z: 1
             focus: true
@@ -57,7 +57,7 @@ Rectangle {
             Behavior on y { PropertyAnimation { duration: 100}}
             width: 50
             height: 50
-            color: "#04f211"
+            color: gameBoard.tileColor
             radius: 5
             z: 2
             focus: true

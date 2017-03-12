@@ -22,15 +22,21 @@ public:
     int readPosY();
     Q_PROPERTY(QString tileNb READ readTileNb NOTIFY tileChanged)
     QString readTileNb();
+    Q_PROPERTY(QString tileColor READ readTileColor NOTIFY tileChanged)
+    QString readTileColor();
+
 
 signals:
     void tileChanged();
 
 private:
     Tile tileA, tileB;
-    int indX = 0, indY = 0, indNb = 0;
+    int indX = 0, indY = 0, indNb = 0, indColor = 0;
     int *tileNb[2];
     int *pTilePos[2]; // Indique le vector position
+    QString *tileColor[2];
+
+    void verifyTiles();
 };
 
 #endif // GAMEBOARD_H

@@ -6,7 +6,10 @@ GameBoard::GameBoard(QObject *parent) : QObject(parent)
 
     tileNb[0] = tileA.getRefNumber();
     tileNb[1] = tileB.getRefNumber();
-    tileA.multNumber(2);
+    tileColor[0] = tileA.getRefColor();
+    tileColor[1] = tileB.getRefColor();
+    qDebug() << "Color A: " << *tileColor[0] << "Color B: " << *tileColor[1];
+
 
     pTilePos[0] = tileA.getRefPosVect();
     pTilePos[1] = tileB.getRefPosVect();
@@ -20,8 +23,9 @@ GameBoard::GameBoard(QObject *parent) : QObject(parent)
 void GameBoard::moveRight()
 {
     tileA.setPosition(190,0);
-    tileB.setPosition(130,0);
+    tileB.setPosition(190,0);
     qDebug() << "moveRight";
+    verifyTiles();
     tileChanged();
 }
 
@@ -30,6 +34,7 @@ void GameBoard::moveLeft()
     tileA.setPosition(10,0);
     tileB.setPosition(70,0);
     qDebug() << "moveLeft";
+    verifyTiles();
     tileChanged();
 }
 
@@ -38,14 +43,16 @@ void GameBoard::moveUp()
     tileA.setPosition(0,10);
     tileB.setPosition(0,70);
     qDebug() << "moveLeft";
+    verifyTiles();
     tileChanged();
 }
 
 void GameBoard::moveDown()
 {
     tileA.setPosition(0,190);
-    tileB.setPosition(0,130);
+    tileB.setPosition(0,190);
     qDebug() << "moveLeft";
+    verifyTiles();
     tileChanged();
 }
 
@@ -73,4 +80,23 @@ QString GameBoard::readTileNb()
         indNb = 0;
     }
     return QString::number(*tileNb[indNb++]);
+}
+
+QString GameBoard::readTileColor()
+{
+    if (indColor == 2){
+        indColor = 0;
+    }
+    return *tileColor[indColor++];
+}
+
+void GameBoard::verifyTiles()
+{
+    if (*pTilePos[0] == *pTilePos[1] && *(pTilePos[0]+1) == *(pTilePos[1]+1)){
+        qDebug() << "Ops";
+        tileA.multNumber();
+        tileB.resetTile();
+        tileB.setPosition(10,10);
+        tileChanged();
+    }
 }

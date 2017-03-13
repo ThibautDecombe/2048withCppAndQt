@@ -25,22 +25,20 @@ public:
     QString readTileNb();
     Q_PROPERTY(QString tileColor READ readTileColor NOTIFY tileChanged)
     QString readTileColor();
+    Q_PROPERTY(QString tileTextColor READ readTileTextColor NOTIFY tileChanged)
+    QString readTileTextColor();
 
 
 signals:
     void tileChanged();
 
 private:
-    Tile tileA, tileB;
-    int indX = 0, indY = 0, indNb = 0, indColor = 0;
-    int *tileNb[2];
-    int *pTilePos[2]; // Indique le vector position
-    QString *tileColor[2];
+    int indX = 0, indY = 0, indNb = 0, indColor = 0, indTextColor = 0;
+    bool moveVertical = false, moveHorizontal = false; // true = left/up ; false = right/down
 
-    Tile* tiles[2][2];
-    int* matrixNb[2][2];
-    QString* matrixColor[2][2];
-    int* matrixPos[2][2];
+    Tile* tiles[4][4];
+    Tile* tilesQml[16];
+    int* matrixNb[4][4];
 
     void verifyTiles();
     void refreshRef();

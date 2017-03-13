@@ -4,8 +4,9 @@ Tile::Tile(int x, int y)
 {
     tilePosition[0] = x;
     tilePosition[1] = y;
-    number = 2;
+    number = 0;
     setColor();
+    qDebug() << "Objet Tile created! Pos: (" << tilePosition[0] << "," << tilePosition[1] << ") number :" << number;
 }
 
 void Tile::setPosition(int x, int y)
@@ -21,28 +22,34 @@ void Tile::setPosition(int x, int y)
 void Tile::setColor()
 {
     if (number == 0){
-        color = "#00000000";
+        tileColor = "#00000000";
     }
     if (number == 2){
-        color = "#04f211";
+        tileColor = "#04f211";
     }
     if (number == 4){
-        color = "#229468";
+        tileColor = "#229468";
     }
     if (number == 8){
-        color = "#225594";
+        tileColor = "#225594";
     }
     if (number == 16){
-        color = "#482294";
+        tileColor = "#482294";
     }
     if (number == 32){
-        color = "#812294";
+        tileColor = "#812294";
     }
 }
 
 void Tile::multNumber(int n)
 {
     number *= n;
+    setColor();
+}
+
+void Tile::setNumber(int a)
+{
+    number = a;
     setColor();
 }
 
@@ -59,7 +66,17 @@ int Tile::getPosition(int a)
 
 QString Tile::getColor()
 {
-    return color;
+    return tileColor;
+}
+
+QString Tile::getTextColor()
+{
+    if (number == 0){
+        return "#00000000";
+    }
+    else
+        return "#0a4403";
+
 }
 
 QString Tile::getNumber()
@@ -81,6 +98,6 @@ int *Tile::getRefPosVect()
 
 QString *Tile::getRefColor()
 {
-    QString *pcolor = &color;
+    QString *pcolor = &tileColor;
     return pcolor;
 }

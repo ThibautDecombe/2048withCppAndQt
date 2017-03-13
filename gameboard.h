@@ -46,6 +46,7 @@ private:
     void printInfo();
     void createTiles();
     void deleteTiles();
+    void verifyRight();
 };
 
 #endif // GAMEBOARD_H

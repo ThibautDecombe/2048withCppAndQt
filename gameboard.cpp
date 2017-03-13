@@ -2,12 +2,7 @@
 
 GameBoard::GameBoard(QObject *parent) : QObject(parent)
 {
-    for (int i=0; i < 4 ; i++){
-        for (int j=0; j < 4; j++){
-            tiles[i][j] = new Tile(i*60 + 10, j*60 + 10);
-            tilesQml[i + j*4] = tiles[i][j];
-        }
-    }
+    createTiles();
     refreshRef();
     tiles[0][0]->setNumber();
     tiles[0][0]->multNumber();
@@ -19,11 +14,7 @@ GameBoard::GameBoard(QObject *parent) : QObject(parent)
 
 GameBoard::~GameBoard()
 {
-    for (int i=0; i < 4 ; i++){
-        for (int j=0; j < 4; j++){
-            delete tiles[i][j];
-        }
-    }
+    deleteTiles();
     qDebug() << "Objects destroyed";
 }
 
@@ -95,6 +86,17 @@ void GameBoard::moveDown()
     }
 }
 
+void GameBoard::newGame()
+{
+    deleteTiles();
+    createTiles();
+    refreshRef();
+    tiles[0][0]->setNumber();
+    tiles[0][0]->multNumber();
+    tiles[0][1]->setNumber();
+    tileChanged();
+}
+
 
 int GameBoard::readPosX()
 {
@@ -161,5 +163,24 @@ void GameBoard::printInfo()
     qDebug() << "matrixNb:";
     for (int j=0; j < 4; j++){
        qDebug() << *matrixNb[0][j] << "," << *matrixNb[1][j] << "," << *matrixNb[2][j] << "," << *matrixNb[3][j];
+    }
+}
+
+void GameBoard::createTiles()
+{
+    for (int i=0; i < 4 ; i++){
+        for (int j=0; j < 4; j++){
+            tiles[i][j] = new Tile(i*60 + 10, j*60 + 10);
+            tilesQml[i + j*4] = tiles[i][j];
+        }
+    }
+}
+
+void GameBoard::deleteTiles()
+{
+    for (int i=0; i < 4 ; i++){
+        for (int j=0; j < 4; j++){
+            delete tiles[i][j];
+        }
     }
 }

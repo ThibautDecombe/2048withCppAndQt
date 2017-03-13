@@ -16,6 +16,7 @@ public:
     Q_INVOKABLE void moveLeft();
     Q_INVOKABLE void moveUp();
     Q_INVOKABLE void moveDown();
+    Q_INVOKABLE void newGame();
 
     Q_PROPERTY(int posX READ readPosX NOTIFY tileChanged)
     int readPosX();
@@ -43,6 +44,8 @@ private:
     void verifyTiles();
     void refreshRef();
     void printInfo();
+    void createTiles();
+    void deleteTiles();
 };
 
 #endif // GAMEBOARD_H

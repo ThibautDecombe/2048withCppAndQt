@@ -2,21 +2,23 @@ import QtQuick 2.6
 
 Rectangle {
     id: gameWindow
-    width: 270
-    height: 270
+    width: 290
+    height: 400
     color: "#98fb83"
+    property alias newGameButton: newGameButton
     property alias rectangle: rectangle
 
     Rectangle {
         id: rectangle
-        x: 80
         y: 80
         width: 250
         height: 250
         color: "#007615"
         radius: 15
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: 20
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 20
 
         Repeater {
             model: 16
@@ -54,8 +56,8 @@ Rectangle {
 
             Repeater { model:16
                 Rectangle {width: 50; height: 50
-                           color: "#054c0b"
-                           radius: 5
+                    color: "#054c0b"
+                    radius: 5
                 }
             }
         }
@@ -79,6 +81,48 @@ Rectangle {
                     gameBoard.moveDown();
                     break;
             }
+        }
+    }
+
+    Text {
+        id: title2048
+        color: "#044e08"
+        text: qsTr("2048")
+        font.bold: true
+        font.family: "Verdana"
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+        anchors.top: parent.top
+        anchors.topMargin: 20
+        anchors.left: parent.left
+        anchors.leftMargin: 20
+        font.pixelSize: 29
+    }
+
+    Rectangle {
+        id: newGameButtonRect
+        x: 170
+        y: 67
+        width: 100
+        height: 40
+        color: "#73d216"
+        radius: 5
+
+        Text {
+            id: textNewGame
+            color: "#044e08"
+            text: qsTr("New Game")
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            font.pixelSize: 19
+        }
+
+        MouseArea {
+            id: newGameButton
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
         }
     }
 }

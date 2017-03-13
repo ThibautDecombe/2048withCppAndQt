@@ -13,10 +13,12 @@ public:
     void setPosition(int x=0, int y=0);
     void setColor();
     void multNumber(int n=2);
+    void setNumber(int a=2);
     void resetTile();
 
     int getPosition(int a);
     QString getColor();
+    QString getTextColor();
     QString getNumber();
     int *getRefPosVect();
     QString *getRefColor();
@@ -25,7 +27,7 @@ public:
 
 protected:
     int tilePosition[2];
-    QString color;
+    QString tileColor, textColor;
     int number;
 };
 

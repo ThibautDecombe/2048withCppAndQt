@@ -10,11 +10,13 @@ class GameBoard : public QObject
     Q_OBJECT
 public:
     explicit GameBoard(QObject *parent = 0);
+    ~GameBoard();
 
     Q_INVOKABLE void moveRight();
     Q_INVOKABLE void moveLeft();
     Q_INVOKABLE void moveUp();
     Q_INVOKABLE void moveDown();
+    Q_INVOKABLE void newGame();
 
     Q_PROPERTY(int posX READ readPosX NOTIFY tileChanged)
     int readPosX();
@@ -24,19 +26,26 @@ public:
     QString readTileNb();
     Q_PROPERTY(QString tileColor READ readTileColor NOTIFY tileChanged)
     QString readTileColor();
+    Q_PROPERTY(QString tileTextColor READ readTileTextColor NOTIFY tileChanged)
+    QString readTileTextColor();
 
 
 signals:
     void tileChanged();
 
 private:
-    Tile tileA, tileB;
-    int indX = 0, indY = 0, indNb = 0, indColor = 0;
-    int *tileNb[2];
-    int *pTilePos[2]; // Indique le vector position
-    QString *tileColor[2];
+    int indX = 0, indY = 0, indNb = 0, indColor = 0, indTextColor = 0;
+    bool moveVertical = false, moveHorizontal = false; // true = left/up ; false = right/down
+
+    Tile* tiles[4][4];
+    Tile* tilesQml[16];
+    int* matrixNb[4][4];
 
     void verifyTiles();
+    void refreshRef();
+    void printInfo();
+    void createTiles();
+    void deleteTiles();
 };
 
 #endif // GAMEBOARD_H

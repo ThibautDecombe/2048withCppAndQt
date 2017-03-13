@@ -100,3 +100,70 @@ void GameBoard::verifyTiles()
         tileChanged();
     }
 }
+
+void GameBoard::verifyRight(){
+
+    Tile* temp[3];
+
+    bool randomVal = False;
+
+    for (int j = 0; j < 4; j++){              //line loop
+        for (int i = 3; i > 0; i--){          //column loop
+            if ((*matrixNb[i][j] == 0) && (*matrixNb[i-1][j] != 0)){
+                temp[0] = tiles[i][j];
+                //move line
+                for (int k = i; k > 0; k--){
+                    tiles[k][j] = tiles[k-1][j];
+                }
+                tiles[0][j] = temp[0];
+                //True = call random function after 'for' loops
+                randomVal = True;
+            }
+            if (((i == 3)||(i == 2)) && (*matrixNb[i][j] == 0) && (*matrixNb[i-1][j] == 0) && (*matrixNb[i-2][j] != 0)){
+                temp[0] = tiles[i][j];
+                temp[1] = tiles[i-1][j];
+                for (int k = i; k > 1; k--){
+                    tiles[k][j] = tiles[k-2][j];
+                }
+                tiles[0][j] = temp[1];
+                tiles[1][j] = temp[0];
+                randomVal = True;
+            }
+            if ((i == 3) && (*matrixNb[i][j] == 0) && (*matrixNb[i-1][j] == 0) && (*matrixNb[i-2][j] == 0) && (*matrixNb[i-3][j] != 0)){
+                temp[0] = tiles[i][j];       //in case we make bigger grids...
+                temp[1] = tiles[i-1][j];
+                temp[2] = tiles[i-2][j];
+                for (int k = i; k > 2; k--){
+                    tiles[k][j] = tiles[k-3][j];
+                }
+                tiles[0][j] = temp[2];
+                tiles[1][j] = temp[1];
+                tiles[2][j] = temp[0];
+                randomVal = True;
+            }
+            if (*matrixNb[i][j] == *matrixNb[i-1][j]){
+                temp[0] = tiles[i][j];
+                //move line
+                for (int k = i; k > 0; k--){
+                    tiles[k][j] = tiles[k-1][j];
+                }
+                tiles[0][j] = temp[0];
+                //change values
+                tiles[i][j]->multNumber();
+                tiles[i][j]->resetTile();
+                //True = call random function after 'for' loops
+                randomVal = True;
+            }
+        }
+    }
+
+    if (randomVal) {
+        //chamar funcao aparecimento_tile_aleatorio
+    }
+
+}
+
+
+
+
+

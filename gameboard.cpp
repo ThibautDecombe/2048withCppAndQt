@@ -2,8 +2,23 @@
 
 GameBoard::GameBoard(QObject *parent) : QObject(parent)
 {
-    tileA.setPosition(10,10); tileB.setPosition(70,70);
+    for (int i=0; i < 2 ; i++){
+        for (int j=0; j < 2; j++){
+            tiles[i][j] = new Tile(i*60 + 10, j*60 + 10);
+        }
+    }
+    refreshRef();
 
+    tiles[0][0]->multNumber(5);
+    printInfo();
+    Tile* temp;
+    temp = tiles[1][0];
+    tiles[1][0] = tiles[0][0];
+    tiles[0][0] = temp;
+    refreshRef();
+    printInfo();
+
+    tileA.setPosition(10,10); tileB.setPosition(70,70);
     tileNb[0] = tileA.getRefNumber();
     tileNb[1] = tileB.getRefNumber();
     tileColor[0] = tileA.getRefColor();
@@ -16,8 +31,18 @@ GameBoard::GameBoard(QObject *parent) : QObject(parent)
     qDebug() << "Tile A position ("<< *pTilePos[0] << "," << *(pTilePos[0]+1) << ")";
     qDebug() << "Tile B position ("<< *pTilePos[1] << "," << *(pTilePos[1]+1) << ")";
 
-    qDebug() << "Objet GameBoard crée";
+    qDebug() << "Object GameBoard created";
     tileChanged();
+}
+
+GameBoard::~GameBoard()
+{
+    for (int i=0; i < 2 ; i++){
+        for (int j=0; j < 2; j++){
+            delete tiles[i][j];
+        }
+    }
+    qDebug() << "Objects destroyed";
 }
 
 void GameBoard::moveRight()
@@ -63,7 +88,6 @@ int GameBoard::readPosX()
         indX = 0;
     }
     return *pTilePos[indX++];
-
 }
 
 int GameBoard::readPosY()
@@ -98,5 +122,29 @@ void GameBoard::verifyTiles()
         tileB.resetTile();
         tileB.setPosition(10,10);
         tileChanged();
+    }
+}
+
+void GameBoard::refreshRef()
+{
+    for (int i=0; i < 2; i++){
+        for (int j=0; j < 2; j++){
+            tiles[i][j]->setPosition(i*60 + 10, j*60 + 10);
+            matrixNb[i][j] = tiles[i][j]->getRefNumber();
+            matrixPos[i][j] = tiles[i][j]->getRefPosVect();
+            matrixColor[i][j] = tiles[i][j]->getRefColor();
+        }
+    }
+}
+
+void GameBoard::printInfo()
+{
+    qDebug() << "matrixNb:";
+    for (int j=0; j < 2; j++){
+       qDebug() << *matrixNb[0][j] << "," << *matrixNb[1][j];
+    }
+    qDebug() << "matrixPos:";
+    for (int j=0; j < 2; j++){
+       qDebug() << "(" << *matrixPos[0][j] << "," << *(matrixPos[0][j]+1) << ") , (" << *matrixPos[1][j] << "," << *(matrixPos[1][j]+1) << ")";
     }
 }

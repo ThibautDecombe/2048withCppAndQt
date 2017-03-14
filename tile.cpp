@@ -5,8 +5,9 @@ Tile::Tile(int x, int y)
     tilePosition[0] = x;
     tilePosition[1] = y;
     number = 0;
+    fusion = false;
     setColor();
-    qDebug() << "Objet Tile created! Pos: (" << tilePosition[0] << "," << tilePosition[1] << ") number :" << number;
+    //qDebug() << "Objet Tile created! Pos: (" << tilePosition[0] << "," << tilePosition[1] << ") number :" << number;
 }
 
 void Tile::setPosition(int x, int y)
@@ -41,6 +42,11 @@ void Tile::setColor()
     }
 }
 
+void Tile::setFusion(bool f)
+{
+    fusion = f;
+}
+
 void Tile::multNumber(int n)
 {
     number *= n;
@@ -55,6 +61,7 @@ void Tile::setNumber(int a)
 
 void Tile::resetTile()
 {
+    fusion = false;
     number = 0;
     setColor();
 }
@@ -82,6 +89,11 @@ QString Tile::getTextColor()
 QString Tile::getNumber()
 {
     return QString::number(number);
+}
+
+bool Tile::getFusion()
+{
+    return fusion;
 }
 
 int *Tile::getRefNumber()

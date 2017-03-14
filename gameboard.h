@@ -3,7 +3,10 @@
 
 #include <QObject>
 #include <QDebug>
+#include <QVector>
 #include "tile.h"
+#include <stdlib.h>
+#include <time.h>
 
 class GameBoard : public QObject
 {
@@ -35,7 +38,6 @@ signals:
 
 private:
     int indX = 0, indY = 0, indNb = 0, indColor = 0, indTextColor = 0;
-    bool moveVertical = false, moveHorizontal = false; // true = left/up ; false = right/down
 
     Tile* tiles[4][4];
     Tile* tilesQml[16];
@@ -44,9 +46,18 @@ private:
     void verifyTiles();
     void refreshRef();
     void printInfo();
+    void changePlaces(int i1, int j1, int i2, int j2);
+
     void createTiles();
     void deleteTiles();
+
     void verifyRight();
+    void verifyRight2();
+    void verifyLeft();
+    void verifyUp();
+    void verifyDown();
+
+    void createNewTile();
 };
 
 #endif // GAMEBOARD_H

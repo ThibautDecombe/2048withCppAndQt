@@ -5,10 +5,6 @@ GameBoard::GameBoard(QObject *parent) : QObject(parent)
     createTiles();
     refreshRef();
     tiles[0][0]->setNumber();
-    tiles[1][0]->setNumber();
-    tiles[0][1]->setNumber(4);
-    tiles[1][1]->setNumber(4);
-    printInfo();
 
     qDebug() << "Object GameBoard created";
     tileChanged();
@@ -22,61 +18,30 @@ GameBoard::~GameBoard()
 
 void GameBoard::moveRight()
 {
-        verifyRight();
-        refreshRef();
-        qDebug() << "moveRight";
-        tileChanged();
+    verifyRight2();
+    createNewTile();
+    tileChanged();
 }
 
 void GameBoard::moveLeft()
 {  
-    if (moveVertical == true){
-        Tile* temp[4];
-        for (int i=0; i < 4; i++){
-            temp[i] = tiles[0][i];
-            tiles[0][i] = tiles[3][i];
-            tiles[3][i] = temp[i];
-        }
-        refreshRef();
-        qDebug() << "moveLeft";
-        verifyTiles();
-        tileChanged();
-        moveVertical = false;
-    }
+    verifyLeft();
+    createNewTile();
+    tileChanged();
 }
 
 void GameBoard::moveUp()
 {
-    if (moveHorizontal == true){
-        Tile* temp[4];
-        for (int i=0; i < 4; i++){
-            temp[i] = tiles[i][0];
-            tiles[i][0] = tiles[i][3];
-            tiles[i][3] = temp[i];
-        }
-        refreshRef();
-        qDebug() << "moveUp";
-        verifyTiles();
-        tileChanged();
-        moveHorizontal = false;
-    }
+    verifyUp();
+    createNewTile();
+    tileChanged();
 }
 
 void GameBoard::moveDown()
 {
-    if (moveHorizontal == false){
-        Tile* temp[4];
-        for (int i=0; i < 4; i++){
-            temp[i] = tiles[i][0];
-            tiles[i][0] = tiles[i][3];
-            tiles[i][3] = temp[i];
-        }
-        refreshRef();
-        qDebug() << "moveDown";
-        verifyTiles();
-        tileChanged();
-        moveHorizontal = true;
-    }
+    verifyDown();
+    createNewTile();
+    tileChanged();
 }
 
 void GameBoard::verifyRight()
@@ -149,6 +114,141 @@ void GameBoard::verifyRight()
 
 }
 
+void GameBoard::verifyRight2()
+{
+    for (int j = 0; j < 4; j++){
+        for (int k = 0; k < 4; k++){ // Pour répéter 4 fois
+            for (int i = 2; i >= 0; i--){
+                if (*matrixNb[i][j] != 0){
+                    if (*matrixNb[i+1][j] == 0){
+                        changePlaces(i+1, j, i, j);
+                        refreshRef();
+                    }
+                    if ((*matrixNb[i+1][j] == *matrixNb[i][j]) && tiles[i+1][j]->getFusion() == false && tiles[i][j]->getFusion() == false){
+                        tiles[i][j]->multNumber();
+                        tiles[i][j]->setFusion(true);
+                        tiles[i+1][j]->resetTile();
+                        changePlaces(i+1, j, i, j);
+                        refreshRef();
+                    }
+                }
+            }
+        }
+
+    }
+    for (int i=0; i < 4; i++){
+        for (int j=0; j < 4; j++){
+            tiles[i][j]->setFusion(false);
+        }
+    }
+}
+
+void GameBoard::verifyLeft()
+{
+    for (int j = 0; j < 4; j++){
+        for (int k = 0; k < 4; k++){ // Pour répéter 4 fois
+            for (int i = 1; i < 4; i++){
+                if (*matrixNb[i][j] != 0){
+                    if (*matrixNb[i-1][j] == 0){
+                        changePlaces(i-1, j, i, j);
+                        refreshRef();
+                    }
+                    if ((*matrixNb[i-1][j] == *matrixNb[i][j]) && tiles[i-1][j]->getFusion() == false && tiles[i][j]->getFusion() == false){
+                        tiles[i][j]->multNumber();
+                        tiles[i][j]->setFusion(true);
+                        tiles[i-1][j]->resetTile();
+                        changePlaces(i-1, j, i, j);
+                        refreshRef();
+                    }
+                }
+            }
+        }
+
+    }
+    for (int i=0; i < 4; i++){
+        for (int j=0; j < 4; j++){
+            tiles[i][j]->setFusion(false);
+        }
+    }
+}
+
+void GameBoard::verifyUp()
+{
+    for (int i = 0; i < 4; i++){
+        for (int k = 0; k < 4; k++){ // Pour répéter 4 fois
+            for (int j = 1; j < 4; j++){
+                if (*matrixNb[i][j] != 0){
+                    if (*matrixNb[i][j-1] == 0){
+                        changePlaces(i, j-1, i, j);
+                        refreshRef();
+                    }
+                    if ((*matrixNb[i][j-1] == *matrixNb[i][j]) && tiles[i][j-1]->getFusion() == false && tiles[i][j]->getFusion() == false){
+                        tiles[i][j]->multNumber();
+                        tiles[i][j]->setFusion(true);
+                        tiles[i][j-1]->resetTile();
+                        changePlaces(i, j-1, i, j);
+                        refreshRef();
+                    }
+                }
+            }
+        }
+
+    }
+    for (int i=0; i < 4; i++){
+        for (int j=0; j < 4; j++){
+            tiles[i][j]->setFusion(false);
+        }
+    }
+}
+
+void GameBoard::verifyDown()
+{
+    for (int i = 0; i < 4; i++){
+        for (int k = 0; k < 4; k++){ // Pour répéter 4 fois
+            for (int j = 2; j >= 0; j--){
+                if (*matrixNb[i][j] != 0){;
+                    if (*matrixNb[i][j+1] == 0){
+                        changePlaces(i, j+1, i, j);
+                        refreshRef();
+                    }
+                    if ((*matrixNb[i][j+1] == *matrixNb[i][j]) && tiles[i][j+1]->getFusion() == false && tiles[i][j]->getFusion() == false){
+                        tiles[i][j]->multNumber();
+                        tiles[i][j]->setFusion(true);
+                        tiles[i][j+1]->resetTile();
+                        changePlaces(i, j+1, i, j);
+                        refreshRef();
+                    }
+                }
+            }
+        }
+
+    }
+    for (int i=0; i < 4; i++){
+        for (int j=0; j < 4; j++){
+            tiles[i][j]->setFusion(false);
+        }
+    }
+}
+
+void GameBoard::createNewTile()
+{
+    srand(time(NULL)); // initialize the random
+    QVector<int> vecRand;
+
+    for (int i = 0; i < 4; i++){
+        for (int j = 0; j < 4; j++){
+            if (*matrixNb[i][j] == 0){
+                vecRand << i << j; // Vector with all 0's cases
+            }
+        }
+    }
+
+    int randNumber = rand() % 2 + 1;
+    int randIndex = rand() % (vecRand.length()/2 - 1);
+    tiles[vecRand.at(randIndex)][vecRand.at(randIndex)+1]->setNumber(randNumber*2);
+    refreshRef();
+}
+
 void GameBoard::newGame()
 {
     deleteTiles();
@@ -158,7 +258,6 @@ void GameBoard::newGame()
     tiles[1][0]->setNumber();
     tileChanged();
 }
-
 
 int GameBoard::readPosX()
 {
@@ -226,6 +325,14 @@ void GameBoard::printInfo()
     for (int j=0; j < 4; j++){
        qDebug() << *matrixNb[0][j] << "," << *matrixNb[1][j] << "," << *matrixNb[2][j] << "," << *matrixNb[3][j];
     }
+}
+
+void GameBoard::changePlaces(int i1, int j1, int i2, int j2)
+{
+    Tile* temp;
+    temp = tiles[i1][j1];
+    tiles[i1][j1] = tiles[i2][j2];
+    tiles[i2][j2] = temp;
 }
 
 void GameBoard::createTiles()

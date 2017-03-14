@@ -12,6 +12,7 @@ public:
 
     void setPosition(int x=0, int y=0);
     void setColor();
+    void setFusion(bool f = false);
     void multNumber(int n=2);
     void setNumber(int a=2);
     void resetTile();
@@ -20,6 +21,7 @@ public:
     QString getColor();
     QString getTextColor();
     QString getNumber();
+    bool getFusion();
     int *getRefPosVect();
     QString *getRefColor();
     int *getRefNumber();
@@ -29,6 +31,7 @@ protected:
     int tilePosition[2];
     QString tileColor, textColor;
     int number;
+    bool fusion;
 };
 
 #endif // TILE_H

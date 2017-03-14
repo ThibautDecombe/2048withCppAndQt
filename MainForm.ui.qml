@@ -5,8 +5,37 @@ Rectangle {
     width: 290
     height: 400
     color: "#98fb83"
+    property alias optionsButton: optionsButton
     property alias newGameButton: newGameButton
     property alias rectangle: rectangle
+
+    Rectangle {
+        id: optionsButtonRect
+        x: 170
+        y: 17
+        width: 100
+        height: 40
+        color: "#73d216"
+        radius: 5
+
+        Text {
+            id: textOptions
+            color: "#044e08"
+            text: qsTr("Options")
+            font.bold: false
+            fontSizeMode: Text.HorizontalFit
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            anchors.fill: parent
+            font.pixelSize: 19
+        }
+
+        MouseArea {
+            id: optionsButton
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+        }
+    }
 
     Rectangle {
         id: rectangle
@@ -49,13 +78,18 @@ Rectangle {
             }
         }
 
-
         Grid {
-            x: 10; y: 10
-            rows: 4; columns: 4; spacing: 10
+            x: 10
+            y: 10
+            rows: 4
+            columns: 4
+            spacing: 10
 
-            Repeater { model:16
-                Rectangle {width: 50; height: 50
+            Repeater {
+                model: 16
+                Rectangle {
+                    width: 50
+                    height: 50
                     color: "#054c0b"
                     radius: 5
                 }
@@ -64,22 +98,22 @@ Rectangle {
 
         Keys.onPressed: {
             switch (event.key) {
-               case Qt.Key_Right:
-                   console.log("KeyRight pressed");
-                   gameBoard.moveRight();
-                   break;
-                case Qt.Key_Left:
-                   console.log("KeyLeft pressed");
-                   gameBoard.moveLeft();
-                   break;
-                case Qt.Key_Up:
-                    console.log("KeyUp pressed");
-                    gameBoard.moveUp();
-                    break;
-                case Qt.Key_Down:
-                    console.log("KeyDown pressed");
-                    gameBoard.moveDown();
-                    break;
+            case Qt.Key_Right:
+                console.log("KeyRight pressed");
+                gameBoard.moveRight();
+                break;
+            case Qt.Key_Left:
+                console.log("KeyLeft pressed");
+                gameBoard.moveLeft();
+                break;
+            case Qt.Key_Up:
+                console.log("KeyUp pressed");
+                gameBoard.moveUp();
+                break;
+            case Qt.Key_Down:
+                console.log("KeyDown pressed");
+                gameBoard.moveDown();
+                break;
             }
         }
     }

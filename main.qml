@@ -10,10 +10,21 @@ Window {
     MainForm {
         anchors.fill: parent
         id: gameWindow
+        //property variant window;
 
         newGameButton{
             onClicked: gameBoard.newGame()
         }
+
+        optionsButton{
+            onClicked: {
+                var component = Qt.createComponent("Options.qml");
+                console.log("Component Status:", component.status, component.errorString());
+                var window = component.createObject(gameWindow, {"x": 10, "y": 10});
+
+            }
+        }
+
         }
 
     }

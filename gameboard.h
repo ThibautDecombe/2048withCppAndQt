@@ -1,28 +1,28 @@
 #ifndef GAMEBOARD_H
 #define GAMEBOARD_H
 
-#include <QObject>
-#include <QDebug>
-#include <QVector>
-#include "tile.h"
-#include <stdlib.h>
-#include <time.h>
+#include <QObject>  // Pour faire GameBoard hériter de QObject
+#include <QDebug>   // Pour débuger
+#include <QVector>  // Pour créer des objets QVector
+#include "tile.h"   // Pour créer les Tiles
+#include <stdlib.h> // Pour la fonction random
+#include <time.h>   // Pour initialiser la fonction random
 
-class GameBoard : public QObject
+class GameBoard : public QObject    // GameBoard hérite QObject
 {
     Q_OBJECT
 public:
-    explicit GameBoard(QObject *parent = 0);
-    ~GameBoard();
+    explicit GameBoard(QObject *parent = 0);    // Constructeur de la classe
+    ~GameBoard();                               // Déstructeur de la classe
 
-    Q_INVOKABLE void moveRight();
+    Q_INVOKABLE void moveRight();   // Commandes à être appelés depuis qml
     Q_INVOKABLE void moveLeft();
     Q_INVOKABLE void moveUp();
     Q_INVOKABLE void moveDown();
     Q_INVOKABLE void newGame();
 
-    Q_PROPERTY(int posX READ readPosX NOTIFY tileChanged)
-    int readPosX();
+    Q_PROPERTY(int posX READ readPosX NOTIFY tileChanged)   // Propriétés à être utilisés
+    int readPosX();                                         // Sur qml
     Q_PROPERTY(int posY READ readPosY NOTIFY tileChanged)
     int readPosY();
     Q_PROPERTY(QString tileNb READ readTileNb NOTIFY tileChanged)
@@ -34,30 +34,29 @@ public:
 
 
 signals:
-    void tileChanged();
+    void tileChanged();     // Signal pour mettre à jour le qml
 
 private:
-    int indX = 0, indY = 0, indNb = 0, indColor = 0, indTextColor = 0;
+    int indX = 0, indY = 0, indNb = 0, indColor = 0, indTextColor = 0;  // indices pour passer les données au qml
 
-    Tile* tiles[4][4];
-    Tile* tilesQml[16];
-    int* matrixNb[4][4];
+    Tile* tiles[4][4];      // Matrice qui contient les pointeurs des objets crées dynamiquement
+    Tile* tilesQml[16];     // Liste pour passer les infos au qml
+    int* matrixNb[4][4];    // Matrice pour faire la logique des mouvements
 
-    void verifyTiles();
-    void refreshRef();
-    void printInfo();
-    void changePlaces(int i1, int j1, int i2, int j2);
+    void refreshRef();                                  // On refait les références
+    void printInfo();                                   // Print pour debug
+    void changePlaces(int i1, int j1, int i2, int j2);  // Changer deux tiles de place
 
-    void createTiles();
-    void deleteTiles();
+    void createTiles();     // On crée les Tiles
+    void deleteTiles();     // On les efface
 
-    void verifyRight();
+    void verifyRight();     // Mouvement des tiles
     void verifyRight2();
     void verifyLeft();
     void verifyUp();
     void verifyDown();
 
-    void createNewTile();
+    void createNewTile();   // Création d'un nouveau tile aleatoirement
 };
 
 #endif // GAMEBOARD_H

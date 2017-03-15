@@ -3,11 +3,17 @@ import QtQuick.Window 2.0
 
 OptionsForm {
     id: optionsWindow
-    width: 270
-    height: 380
+    width: (widthWindow - 20)
+    height: (heightWindow - 20)
+
+    x4Button.onClicked: {
+        heightWindow = 400;
+        widthWindow = 290;
+}
 
     quitButton{
-        onClicked: optionsWindow.destroy();
+        onClicked: {optionsWindow.destroy();
+                    a = true;}
     }
 
 }

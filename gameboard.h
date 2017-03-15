@@ -20,6 +20,7 @@ public:
     Q_INVOKABLE void moveUp();
     Q_INVOKABLE void moveDown();
     Q_INVOKABLE void newGame();
+    Q_INVOKABLE void setNumberOfTiles(int n);
 
     Q_PROPERTY(int posX READ readPosX NOTIFY tileChanged)   // Propriétés à être utilisés
     int readPosX();                                         // Sur qml
@@ -31,17 +32,25 @@ public:
     QString readTileColor();
     Q_PROPERTY(QString tileTextColor READ readTileTextColor NOTIFY tileChanged)
     QString readTileTextColor();
+    Q_PROPERTY(int numberOfTiles READ readNumberOfTiles NOTIFY tileNbChanged)
+    int readNumberOfTiles();
 
 
 signals:
     void tileChanged();     // Signal pour mettre à jour le qml
+    void tileNbChanged();
 
 private:
+    int numberOfTiles;
     int indX = 0, indY = 0, indNb = 0, indColor = 0, indTextColor = 0;  // indices pour passer les données au qml
 
-    Tile* tiles[4][4];      // Matrice qui contient les pointeurs des objets crées dynamiquement
-    Tile* tilesQml[16];     // Liste pour passer les infos au qml
-    int* matrixNb[4][4];    // Matrice pour faire la logique des mouvements
+
+    //Tile* tiles[4][4];      // Matrice qui contient les pointeurs des objets crées dynamiquement
+    Tile*** tiles;
+    Tile** tilesQml;
+    int*** matrixNb;
+    //Tile* tilesQml[16];     // Liste pour passer les infos au qml
+    //int* matrixNb[4][4];    // Matrice pour faire la logique des mouvements
 
     void refreshRef();                                  // On refait les références
     void printInfo();                                   // Print pour debug

@@ -3,7 +3,7 @@ import QtQuick 2.6
 Rectangle {
     id: gameWindow
     width: 290
-    height: 400
+    height: (60*numberOfTiles + 160)
     color: "#98fb83"
     property alias optionsButton: optionsButton
     property alias newGameButton: newGameButton
@@ -34,14 +34,15 @@ Rectangle {
             id: optionsButton
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
+            visible: a
         }
     }
 
     Rectangle {
         id: rectangle
         y: 80
-        width: 250
-        height: 250
+        width: (60*numberOfTiles + 10)
+        height: (60*numberOfTiles + 10)
         color: "#007615"
         radius: 15
         anchors.left: parent.left
@@ -50,7 +51,7 @@ Rectangle {
         anchors.bottomMargin: 20
 
         Repeater {
-            model: 16
+            model: numberOfTiles*numberOfTiles
             Rectangle {
                 x: gameBoard.posX
                 y: gameBoard.posY
@@ -81,12 +82,12 @@ Rectangle {
         Grid {
             x: 10
             y: 10
-            rows: 4
-            columns: 4
+            rows: numberOfTiles
+            columns: numberOfTiles
             spacing: 10
 
             Repeater {
-                model: 16
+                model: numberOfTiles*numberOfTiles
                 Rectangle {
                     width: 50
                     height: 50
@@ -157,6 +158,7 @@ Rectangle {
             id: newGameButton
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
+            visible: a
         }
     }
 }

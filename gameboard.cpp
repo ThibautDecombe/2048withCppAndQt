@@ -2,10 +2,10 @@
 
 GameBoard::GameBoard(QObject *parent) : QObject(parent)
 {
+    numberOfTiles = 6;
     createTiles();
     refreshRef();
     tiles[0][0]->setNumber();
-
     qDebug() << "Object GameBoard created";
     tileChanged();
 }
@@ -19,28 +19,33 @@ GameBoard::~GameBoard()
 void GameBoard::moveRight()
 {
     verifyRight2();
-    createNewTile();
+    printInfo();
+    //createNewTile();
     tileChanged();
+
 }
 
 void GameBoard::moveLeft()
 {  
     verifyLeft();
-    createNewTile();
+    printInfo();
+    //createNewTile();
     tileChanged();
 }
 
 void GameBoard::moveUp()
 {
     verifyUp();
-    createNewTile();
+    printInfo();
+    //createNewTile();
     tileChanged();
 }
 
 void GameBoard::moveDown()
 {
     verifyDown();
-    createNewTile();
+    printInfo();
+    //createNewTile();
     tileChanged();
 }
 
@@ -116,9 +121,9 @@ void GameBoard::verifyRight()
 
 void GameBoard::verifyRight2()
 {
-    for (int j = 0; j < 4; j++){
-        for (int k = 0; k < 4; k++){ // Pour répéter 4 fois
-            for (int i = 2; i >= 0; i--){
+    for (int j = 0; j < numberOfTiles; j++){
+        for (int k = 0; k < numberOfTiles; k++){ // Pour répéter numberOfTiles fois
+            for (int i = (numberOfTiles - 2); i >= 0; i--){
                 if (*matrixNb[i][j] != 0){
                     if (*matrixNb[i+1][j] == 0){
                         changePlaces(i+1, j, i, j);
@@ -136,8 +141,8 @@ void GameBoard::verifyRight2()
         }
 
     }
-    for (int i=0; i < 4; i++){
-        for (int j=0; j < 4; j++){
+    for (int i=0; i < numberOfTiles; i++){
+        for (int j=0; j < numberOfTiles; j++){
             tiles[i][j]->setFusion(false);
         }
     }
@@ -145,9 +150,9 @@ void GameBoard::verifyRight2()
 
 void GameBoard::verifyLeft()
 {
-    for (int j = 0; j < 4; j++){
-        for (int k = 0; k < 4; k++){ // Pour répéter 4 fois
-            for (int i = 1; i < 4; i++){
+    for (int j = 0; j < numberOfTiles; j++){
+        for (int k = 0; k < numberOfTiles; k++){ // Pour répéter numberOfTiles fois
+            for (int i = 1; i < numberOfTiles; i++){
                 if (*matrixNb[i][j] != 0){
                     if (*matrixNb[i-1][j] == 0){
                         changePlaces(i-1, j, i, j);
@@ -165,8 +170,8 @@ void GameBoard::verifyLeft()
         }
 
     }
-    for (int i=0; i < 4; i++){
-        for (int j=0; j < 4; j++){
+    for (int i=0; i < numberOfTiles; i++){
+        for (int j=0; j < numberOfTiles; j++){
             tiles[i][j]->setFusion(false);
         }
     }
@@ -174,9 +179,9 @@ void GameBoard::verifyLeft()
 
 void GameBoard::verifyUp()
 {
-    for (int i = 0; i < 4; i++){
-        for (int k = 0; k < 4; k++){ // Pour répéter 4 fois
-            for (int j = 1; j < 4; j++){
+    for (int i = 0; i < numberOfTiles; i++){
+        for (int k = 0; k < numberOfTiles; k++){ // Pour répéter numberOfTiles fois
+            for (int j = 1; j < numberOfTiles; j++){
                 if (*matrixNb[i][j] != 0){
                     if (*matrixNb[i][j-1] == 0){
                         changePlaces(i, j-1, i, j);
@@ -194,8 +199,8 @@ void GameBoard::verifyUp()
         }
 
     }
-    for (int i=0; i < 4; i++){
-        for (int j=0; j < 4; j++){
+    for (int i=0; i < numberOfTiles; i++){
+        for (int j=0; j < numberOfTiles; j++){
             tiles[i][j]->setFusion(false);
         }
     }
@@ -203,9 +208,9 @@ void GameBoard::verifyUp()
 
 void GameBoard::verifyDown()
 {
-    for (int i = 0; i < 4; i++){
-        for (int k = 0; k < 4; k++){ // Pour répéter 4 fois
-            for (int j = 2; j >= 0; j--){
+    for (int i = 0; i < numberOfTiles; i++){
+        for (int k = 0; k < numberOfTiles; k++){ // Pour répéter numberOfTiles fois
+            for (int j = (numberOfTiles-2); j >= 0; j--){
                 if (*matrixNb[i][j] != 0){;
                     if (*matrixNb[i][j+1] == 0){
                         changePlaces(i, j+1, i, j);
@@ -223,8 +228,8 @@ void GameBoard::verifyDown()
         }
 
     }
-    for (int i=0; i < 4; i++){
-        for (int j=0; j < 4; j++){
+    for (int i=0; i < numberOfTiles; i++){
+        for (int j=0; j < numberOfTiles; j++){
             tiles[i][j]->setFusion(false);
         }
     }
@@ -235,8 +240,8 @@ void GameBoard::createNewTile()
     srand(time(NULL)); // initialize the random
     QVector<int> vecRand;
 
-    for (int i = 0; i < 4; i++){
-        for (int j = 0; j < 4; j++){
+    for (int i = 0; i < numberOfTiles; i++){
+        for (int j = 0; j < numberOfTiles; j++){
             if (*matrixNb[i][j] == 0){
                 vecRand << i << j; // Vector with all 0's cases
             }
@@ -259,9 +264,21 @@ void GameBoard::newGame()
     tileChanged();
 }
 
+void GameBoard::setNumberOfTiles(int n)
+{
+    numberOfTiles = n;
+    tileNbChanged();
+    deleteTiles();
+    createTiles();
+    refreshRef();
+    tiles[0][0]->setNumber();
+    qDebug() << "Object GameBoard created";
+    tileChanged();
+}
+
 int GameBoard::readPosX()
 {
-    if (indX == 16){
+    if (indX == numberOfTiles*numberOfTiles){
         indX = 0;
     }
     return tilesQml[indX++]->getPosition(0);
@@ -269,7 +286,7 @@ int GameBoard::readPosX()
 
 int GameBoard::readPosY()
 {
-    if (indY == 16){
+    if (indY == numberOfTiles*numberOfTiles){
         indY = 0;
     }
     return tilesQml[indY++]->getPosition(1);
@@ -277,7 +294,7 @@ int GameBoard::readPosY()
 
 QString GameBoard::readTileNb()
 {
-    if (indNb == 16){
+    if (indNb == numberOfTiles*numberOfTiles){
         indNb = 0;
     }
     return tilesQml[indNb++]->getNumber();
@@ -285,7 +302,7 @@ QString GameBoard::readTileNb()
 
 QString GameBoard::readTileColor()
 {
-    if (indColor == 16){
+    if (indColor == numberOfTiles*numberOfTiles){
         indColor = 0;
     }
     return tilesQml[indColor++]->getColor();
@@ -293,26 +310,21 @@ QString GameBoard::readTileColor()
 
 QString GameBoard::readTileTextColor()
 {
-    if (indTextColor == 16){
+    if (indTextColor == numberOfTiles*numberOfTiles){
         indTextColor = 0;
     }
     return tilesQml[indTextColor++]->getTextColor();
 }
 
-void GameBoard::verifyTiles()
+int GameBoard::readNumberOfTiles()
 {
-
-    if (tilesQml[0]->getPosition(0) == 190){
-        qDebug() << "Ops";
-        tilesQml[0]->multNumber();
-        tileChanged();
-    }
+    return numberOfTiles;
 }
 
 void GameBoard::refreshRef()
 {
-    for (int i=0; i < 4; i++){
-        for (int j=0; j < 4; j++){
+    for (int i=0; i < numberOfTiles; i++){
+        for (int j=0; j < numberOfTiles; j++){
             tiles[i][j]->setPosition(i*60 + 10, j*60 + 10);
             matrixNb[i][j] = tiles[i][j]->getRefNumber();
         }
@@ -322,8 +334,8 @@ void GameBoard::refreshRef()
 void GameBoard::printInfo()
 {
     qDebug() << "matrixNb:";
-    for (int j=0; j < 4; j++){
-       qDebug() << *matrixNb[0][j] << "," << *matrixNb[1][j] << "," << *matrixNb[2][j] << "," << *matrixNb[3][j];
+    for (int j=0; j < numberOfTiles; j++){
+       //qDebug() << *matrixNb[0][j] << "," << *matrixNb[1][j] << "," << *matrixNb[2][j] << "," << *matrixNb[3][j] << "," << *matrixNb[4][j];
     }
 }
 
@@ -337,19 +349,46 @@ void GameBoard::changePlaces(int i1, int j1, int i2, int j2)
 
 void GameBoard::createTiles()
 {
-    for (int i=0; i < 4 ; i++){
-        for (int j=0; j < 4; j++){
+    tiles = new Tile**[numberOfTiles];
+    for (int i=0; i < numberOfTiles; i++) tiles[i] = new Tile*[numberOfTiles];
+    matrixNb = new int**[numberOfTiles];
+    for (int i=0; i< numberOfTiles; i++) matrixNb[i] = new int*[numberOfTiles];
+    tilesQml = new Tile*[numberOfTiles];
+
+    for (int i=0; i < numberOfTiles; i++){
+        for (int j=0; j < numberOfTiles; j++){
             tiles[i][j] = new Tile(i*60 + 10, j*60 + 10);
-            tilesQml[i + j*4] = tiles[i][j];
+            tilesQml[i + j*numberOfTiles] = tiles[i][j];
         }
     }
 }
 
 void GameBoard::deleteTiles()
 {
-    for (int i=0; i < 4 ; i++){
-        for (int j=0; j < 4; j++){
+    for (int i=0; i < numberOfTiles ; i++){
+        for (int j=0; j < numberOfTiles; j++){
             delete tiles[i][j];
         }
     }
+
+    qDebug() << "tiles destroyed";
+    if (tiles != NULL){
+        for (int i=0; i < numberOfTiles; i++){
+            delete [] tiles[i];
+        }
+        delete [] tiles;
+    }
+
+    qDebug() << "tiles * destroyed";
+    if (matrixNb != NULL){
+        for (int i=0; i < numberOfTiles; i++){
+            delete [] matrixNb[i];
+        }
+        delete [] matrixNb;
+    }
+    qDebug() << "matrix Nb destroyed";
+
+    delete [] tilesQml;
+
+    qDebug() << "tiles QML destroyed";
 }

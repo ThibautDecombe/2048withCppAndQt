@@ -4,6 +4,7 @@ GameBoard::GameBoard(QObject *parent) : QObject(parent)
 {
     numberOfTiles = 4;
     createTiles();
+    defineSetOfColors(0);
     refreshRef();
     tiles[0][0]->setNumber();
     qDebug() << "Object GameBoard created";
@@ -274,22 +275,29 @@ void GameBoard::setNumberOfTiles(int n)
 
 void GameBoard::defineSetOfColors(int n)
 {
+    QStringList tempColorOptions;
+
     if (n == 0){
+        tempColorOptions << "#007615" << "#98fb83" ;
         for (int i=0; i < numberOfTiles; i++){
             for (int j=0; j < numberOfTiles; j++){
                 tilesQml[i + j*numberOfTiles]->defineSetOfTilesColors("Green");
                 tilesQml[i + j*numberOfTiles]->setColor();
+                tempColorOptions << "#054c0b";
             }
         }
     }
     if (n == 1){
+        tempColorOptions << "#ebe0d6" << "#ede0c8";
         for (int i=0; i < numberOfTiles; i++){
             for (int j=0; j < numberOfTiles; j++){
                 tilesQml[i + j*numberOfTiles]->defineSetOfTilesColors("Classic");
                 tilesQml[i + j*numberOfTiles]->setColor();
+                tempColorOptions << "#bbada0";
             }
         }
     }
+    colorOptions = tempColorOptions;
     tileChanged();
 }
 
@@ -336,6 +344,14 @@ QString GameBoard::readTileTextColor()
 int GameBoard::readNumberOfTiles()
 {
     return numberOfTiles;
+}
+
+QString GameBoard::readColorOptions()
+{
+    if (indColorOptions == numberOfTiles*numberOfTiles + 2){
+        indColorOptions = 0;
+    }
+    return colorOptions.at(indColorOptions++);
 }
 
 void GameBoard::refreshRef()

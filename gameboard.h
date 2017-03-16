@@ -7,6 +7,7 @@
 #include "tile.h"   // Pour créer les Tiles
 #include <stdlib.h> // Pour la fonction random
 #include <time.h>   // Pour initialiser la fonction random
+#include <QStringList>
 
 class GameBoard : public QObject    // GameBoard hérite QObject
 {
@@ -35,7 +36,8 @@ public:
     QString readTileTextColor();
     Q_PROPERTY(int numberOfTiles READ readNumberOfTiles NOTIFY tileChanged)
     int readNumberOfTiles();
-
+    Q_PROPERTY(QString colorOptionsQml READ readColorOptions NOTIFY tileChanged)
+    QString readColorOptions();
 
 signals:
     void tileChanged();     // Signal pour mettre à jour le qml
@@ -44,6 +46,9 @@ signals:
 private:
     int numberOfTiles;
     int indX = 0, indY = 0, indNb = 0, indColor = 0, indTextColor = 0;  // indices pour passer les données au qml
+
+    int indColorOptions = 0;
+    QStringList colorOptions;
 
     //Tile*** tiles;
     //Tile** tilesQml;

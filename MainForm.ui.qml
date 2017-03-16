@@ -3,8 +3,8 @@ import QtQuick 2.6
 Rectangle {
     id: gameWindow
     width: 290
-    height: 400
-    color: "#98fb83"
+    height: (60*numberOfTiles + 160)
+    color: gameBoard.colorOptionsQml
     property alias optionsButton: optionsButton
     property alias newGameButton: newGameButton
     property alias rectangle: rectangle
@@ -34,15 +34,16 @@ Rectangle {
             id: optionsButton
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
+            visible: a
         }
     }
 
     Rectangle {
         id: rectangle
         y: 80
-        width: 250
-        height: 250
-        color: "#007615"
+        width: (60*numberOfTiles + 10)
+        height: (60*numberOfTiles + 10)
+        color: gameBoard.colorOptionsQml //"#007615"
         radius: 15
         anchors.left: parent.left
         anchors.leftMargin: 20
@@ -50,7 +51,7 @@ Rectangle {
         anchors.bottomMargin: 20
 
         Repeater {
-            model: 16
+            model: numberOfTiles*numberOfTiles
             Rectangle {
                 x: gameBoard.posX
                 y: gameBoard.posY
@@ -81,16 +82,16 @@ Rectangle {
         Grid {
             x: 10
             y: 10
-            rows: 4
-            columns: 4
+            rows: numberOfTiles
+            columns: numberOfTiles
             spacing: 10
 
             Repeater {
-                model: 16
+                model: numberOfTiles*numberOfTiles
                 Rectangle {
                     width: 50
                     height: 50
-                    color: "#054c0b"
+                    color: gameBoard.colorOptionsQml //"#054c0b"
                     radius: 5
                 }
             }
@@ -157,6 +158,7 @@ Rectangle {
             id: newGameButton
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
+            visible: a
         }
     }
 }

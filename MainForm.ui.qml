@@ -15,12 +15,12 @@ Rectangle {
         y: 17
         width: 100
         height: 40
-        color: "#73d216"
+        color: gameBoard.colorOptionsQml
         radius: 5
 
         Text {
             id: textOptions
-            color: "#044e08"
+            color: gameBoard.colorOptionsQml
             text: qsTr("Options")
             font.bold: false
             fontSizeMode: Text.HorizontalFit
@@ -32,6 +32,49 @@ Rectangle {
 
         MouseArea {
             id: optionsButton
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            visible: a
+        }
+    }
+
+    Text {
+        id: title2048
+        color: gameBoard.colorOptionsQml
+        text: qsTr("2048")
+        font.bold: true
+        font.family: "Verdana"
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+        anchors.top: parent.top
+        anchors.topMargin: 20
+        anchors.left: parent.left
+        anchors.leftMargin: 20
+        font.pixelSize: 29
+    }
+
+    Rectangle {
+        id: newGameButtonRect
+        x: 170
+        y: 67
+        width: 100
+        height: 40
+        color: gameBoard.colorOptionsQml
+        radius: 5
+
+        Text {
+            id: textNewGame
+            color: gameBoard.colorOptionsQml
+            text: qsTr("New Game")
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            font.pixelSize: 19
+        }
+
+        MouseArea {
+            id: newGameButton
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
             visible: a
@@ -116,49 +159,6 @@ Rectangle {
                 gameBoard.moveDown();
                 break;
             }
-        }
-    }
-
-    Text {
-        id: title2048
-        color: "#044e08"
-        text: qsTr("2048")
-        font.bold: true
-        font.family: "Verdana"
-        verticalAlignment: Text.AlignVCenter
-        horizontalAlignment: Text.AlignHCenter
-        anchors.top: parent.top
-        anchors.topMargin: 20
-        anchors.left: parent.left
-        anchors.leftMargin: 20
-        font.pixelSize: 29
-    }
-
-    Rectangle {
-        id: newGameButtonRect
-        x: 170
-        y: 67
-        width: 100
-        height: 40
-        color: "#73d216"
-        radius: 5
-
-        Text {
-            id: textNewGame
-            color: "#044e08"
-            text: qsTr("New Game")
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            font.pixelSize: 19
-        }
-
-        MouseArea {
-            id: newGameButton
-            anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
-            visible: a
         }
     }
 }

@@ -278,7 +278,8 @@ void GameBoard::defineSetOfColors(int n)
     QStringList tempColorOptions;
 
     if (n == 0){
-        tempColorOptions << "#007615" << "#98fb83" ;
+        tempColorOptions << "#73d216" << "#044e08" << "#044e08"
+                         << "#73d216" << "#044e08" <<"#007615" << "#98fb83" ;
         for (int i=0; i < numberOfTiles; i++){
             for (int j=0; j < numberOfTiles; j++){
                 tilesQml[i + j*numberOfTiles]->defineSetOfTilesColors("Green");
@@ -288,12 +289,13 @@ void GameBoard::defineSetOfColors(int n)
         }
     }
     if (n == 1){
-        tempColorOptions << "#ebe0d6" << "#ede0c8";
+        tempColorOptions << "#baae9d" << "#ffffff" << "#baae9d"
+                         << "#746c6b" << "#ffffff" << "#baae9d" << "#faf9f0";
         for (int i=0; i < numberOfTiles; i++){
             for (int j=0; j < numberOfTiles; j++){
                 tilesQml[i + j*numberOfTiles]->defineSetOfTilesColors("Classic");
                 tilesQml[i + j*numberOfTiles]->setColor();
-                tempColorOptions << "#bbada0";
+                tempColorOptions << "#ccc2b3";
             }
         }
     }
@@ -348,7 +350,7 @@ int GameBoard::readNumberOfTiles()
 
 QString GameBoard::readColorOptions()
 {
-    if (indColorOptions == numberOfTiles*numberOfTiles + 2){
+    if (indColorOptions == numberOfTiles*numberOfTiles + 7){
         indColorOptions = 0;
     }
     return colorOptions.at(indColorOptions++);

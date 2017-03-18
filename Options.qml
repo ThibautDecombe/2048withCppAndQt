@@ -3,11 +3,25 @@ import QtQuick.Window 2.0
 
 OptionsForm {
     id: optionsWindow
-    width: 270
-    height: 380
+    width: (widthWindow - 20)
+    height: (heightWindow - 20)
+
+    classicButton.onClicked: {
+        gameBoard.defineSetOfColors(1)
+    }
+
+    greenButton.onClicked: {
+        gameBoard.defineSetOfColors(0)
+    }
+
+    x4Button.onClicked: {
+        heightWindow = 400;
+        widthWindow = 290;
+}
 
     quitButton{
-        onClicked: optionsWindow.destroy();
+        onClicked: {optionsWindow.destroy();
+                    a = true;}
     }
 
 }

@@ -4,6 +4,7 @@
 #include <QString>
 #include <QDebug>
 #include <vector>
+#include <QStringList>
 
 class Tile
 {
@@ -16,6 +17,7 @@ public:
     void multNumber(int n=2);           // Pour multiplier le Tile par 2
     void setNumber(int a=2);            // Pour initialiser le Tile
     void resetTile();                   // Pour mettre le Tile à 0
+    void defineSetOfTilesColors(QString nameOfTheSet);
 
     int getPosition(int a);             // Recupère la position
     QString getColor();                 // Recupère la couleur
@@ -32,6 +34,9 @@ protected:
     QString tileColor, textColor;       // Couleur du Tile et du text
     int number;                         // Nombre du Tile
     bool fusion;                        // État de fusion du Tile
+
+    //QVector<QString> setOfColors;
+    QStringList setOfColors, setOfColorsText;
 };
 
 #endif // TILE_H

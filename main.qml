@@ -21,6 +21,10 @@ Window {
             onClicked: gameBoard.newGame()
         }
 
+        undoButton{
+            onClicked: gameBoard.undoGame()
+        }
+
         optionsButton{
             onClicked: {
                 a = false;

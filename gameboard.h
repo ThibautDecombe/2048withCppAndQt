@@ -21,6 +21,7 @@ public:
     Q_INVOKABLE void moveUp();
     Q_INVOKABLE void moveDown();
     Q_INVOKABLE void newGame();
+    Q_INVOKABLE void undoGame();
     Q_INVOKABLE void setNumberOfTiles(int n);
     Q_INVOKABLE void defineSetOfColors(int n);
 
@@ -66,7 +67,6 @@ private:
     void deleteTiles();     // On les efface
 
     void verifyRight();     // Mouvement des tiles
-    void verifyRight2();
     void verifyLeft();
     void verifyUp();
     void verifyDown();

@@ -19,7 +19,8 @@ GameBoard::~GameBoard()
 
 void GameBoard::moveRight()
 {
-    verifyRight2();
+    verifyRight();
+    tileChanged();
     createNewTile();
     tileChanged();
 
@@ -28,6 +29,7 @@ void GameBoard::moveRight()
 void GameBoard::moveLeft()
 {  
     verifyLeft();
+    tileChanged();
     createNewTile();
     tileChanged();
 }
@@ -35,6 +37,7 @@ void GameBoard::moveLeft()
 void GameBoard::moveUp()
 {
     verifyUp();
+    tileChanged();
     createNewTile();
     tileChanged();
 }
@@ -42,81 +45,12 @@ void GameBoard::moveUp()
 void GameBoard::moveDown()
 {
     verifyDown();
+    tileChanged();
     createNewTile();
     tileChanged();
 }
 
 void GameBoard::verifyRight()
-{
-    Tile* temp[3];
-
-    bool randomVal = false;
-
-    for (int j = 0; j < 4; j++){              //line loop
-            for (int i = 3; i > 0; i--){          //column loop
-                if ((*matrixNb[i][j] == 0) && (*matrixNb[i-1][j] != 0)){
-                    temp[0] = tiles[i][j];
-                    //move line
-                    for (int k = i; k > 0; k--){
-                        tiles[k][j] = tiles[k-1][j];
-                    }
-                    tiles[0][j] = temp[0];
-                    //True = call random function after 'for' loops
-                    randomVal = true;
-                    refreshRef();
-                }
-            if (((i == 3)||(i == 2)) && (*matrixNb[i][j] == 0) && (*matrixNb[i-1][j] == 0) && (*matrixNb[i-2][j] != 0)){
-                qDebug() << "Case 2, i: " << i << "j: " << j;
-                temp[0] = tiles[i][j];
-                temp[1] = tiles[i-1][j];
-                for (int k = i; k > 1; k--){
-                    tiles[k][j] = tiles[k-2][j];
-                }
-                tiles[0][j] = temp[1];
-                tiles[1][j] = temp[0];
-                randomVal = true;
-                refreshRef();
-            }
-            if ((i == 3) && (*matrixNb[i][j] == 0) && (*matrixNb[i-1][j] == 0) && (*matrixNb[i-2][j] == 0) && (*matrixNb[i-3][j] != 0)){
-                qDebug() << "Case 3, i: " << i << "j: " << j;
-                temp[0] = tiles[i][j];       //in case we make bigger grids...
-                temp[1] = tiles[i-1][j];
-                temp[2] = tiles[i-2][j];
-                for (int k = i; k > 2; k--){
-                    tiles[k][j] = tiles[k-3][j];
-                }
-                tiles[0][j] = temp[2];
-                tiles[1][j] = temp[1];
-                tiles[2][j] = temp[0];
-                randomVal = true;
-                refreshRef();
-            }
-            if ((*matrixNb[i][j] == *matrixNb[i-1][j]) && *matrixNb[i][j] != 0){
-                qDebug() << "Case 4, i: " << i << "j: " << j;
-                temp[0] = tiles[i][j];
-                //move line
-                for (int k = i; k > 0; k--){
-                    tiles[k][j] = tiles[k-1][j];
-                }
-                tiles[0][j] = temp[0];
-                //change values
-                tiles[i][j]->multNumber();
-                tiles[0][j]->resetTile();
-                //True = call random function after 'for' loops
-                randomVal = true;
-                refreshRef();
-                printInfo();
-            }
-        }
-    }
-
-    if (randomVal) {
-        //chamar funcao aparecimento_tile_aleatorio
-    }
-
-}
-
-void GameBoard::verifyRight2()
 {
     for (int j = 0; j < numberOfTiles; j++){
         for (int k = 0; k < numberOfTiles; k++){ // Pour répéter numberOfTiles fois
@@ -236,7 +170,6 @@ void GameBoard::createNewTile()
 {
     srand(time(NULL)); // initialize the random
     QVector<int> vecRand;
-
     for (int i = 0; i < numberOfTiles; i++){
         for (int j = 0; j < numberOfTiles; j++){
             if (*matrixNb[i][j] == 0){
@@ -247,7 +180,7 @@ void GameBoard::createNewTile()
 
     int randNumber = rand() % 2 + 1;
     int randIndex = rand() % (vecRand.length()/2 - 1);
-    tiles[vecRand.at(randIndex)][vecRand.at(randIndex)+1]->setNumber(randNumber*2);
+    tiles[vecRand.at(randIndex*2)][vecRand.at(randIndex*2+1)]->setNumber(randNumber*2);
     refreshRef();
 }
 
@@ -259,6 +192,11 @@ void GameBoard::newGame()
     tiles[0][0]->setNumber();
     tiles[1][0]->setNumber();
     tileChanged();
+}
+
+void GameBoard::undoGame()
+{
+    qDebug() << "undo";
 }
 
 void GameBoard::setNumberOfTiles(int n)
@@ -278,8 +216,8 @@ void GameBoard::defineSetOfColors(int n)
     QStringList tempColorOptions;
 
     if (n == 0){
-        tempColorOptions << "#73d216" << "#044e08" << "#044e08"
-                         << "#73d216" << "#044e08" <<"#007615" << "#98fb83" ;
+        tempColorOptions << "#007615" << "#044e08" << "#73d216"
+                         << "#044e08" << "#044e08" <<"#73d216" << "#98fb83" ;
         for (int i=0; i < numberOfTiles; i++){
             for (int j=0; j < numberOfTiles; j++){
                 tilesQml[i + j*numberOfTiles]->defineSetOfTilesColors("Green");
@@ -369,9 +307,9 @@ void GameBoard::refreshRef()
 void GameBoard::printInfo()
 {
     qDebug() << "matrixNb:";
-    //for (int j=0; j < numberOfTiles; j++){
-       //qDebug() << *matrixNb[0][j] << "," << *matrixNb[1][j] << "," << *matrixNb[2][j] << "," << *matrixNb[3][j] << "," << *matrixNb[4][j];
-    //}
+    for (int j=0; j < numberOfTiles; j++){
+       qDebug() << *matrixNb[0][j] << "," << *matrixNb[1][j] << "," << *matrixNb[2][j] << "," << *matrixNb[3][j];
+    }
 }
 
 void GameBoard::changePlaces(int i1, int j1, int i2, int j2)

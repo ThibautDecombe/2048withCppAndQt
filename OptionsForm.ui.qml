@@ -63,12 +63,90 @@ Item {
         }
 
         Text {
+            id: textColorScheme
+            x: -4
+            width: 173
+            height: 25
+            color: "#044e08"
+            text: qsTr("Color Scheme")
+            anchors.top: parent.top
+            anchors.topMargin: 50
+            anchors.horizontalCenter: parent.horizontalCenter
+            fontSizeMode: Text.FixedSize
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            font.family: "Verdana"
+            font.pixelSize: 22
+        }
+
+        Rectangle {
+            id: greenButtonRect
+            x: 15
+            y: 86
+            width: 120
+            height: 40
+            color: "#73d216"
+            radius: 5
+            Text {
+                id: greenText
+                width: 80
+                height: 40
+                color: "#044e08"
+                text: qsTr("Green")
+                font.bold: true
+                fontSizeMode: Text.HorizontalFit
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                font.pixelSize: 19
+                anchors.fill: parent
+            }
+
+            MouseArea {
+                id: greenButton
+                cursorShape: Qt.PointingHandCursor
+                anchors.fill: parent
+            }
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+        }
+
+        Rectangle {
+            id: classicButtonRect
+            x: 140
+            y: 86
+            width: 120
+            height: 40
+            color: "#73d216"
+            radius: 5
+            anchors.right: parent.right
+            Text {
+                id: classicText
+                width: 80
+                height: 40
+                color: "#044e08"
+                text: qsTr("Classic")
+                font.bold: true
+                fontSizeMode: Text.HorizontalFit
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                font.pixelSize: 19
+                anchors.fill: parent
+            }
+
+            MouseArea {
+                id: classicButton
+                cursorShape: Qt.PointingHandCursor
+                anchors.fill: parent
+            }
+            anchors.rightMargin: 10
+        }
+
+        Text {
             id: textSize
             y: 190
             color: "#044e08"
             text: qsTr("Size")
-            anchors.left: parent.left
-            anchors.leftMargin: 10
+            anchors.horizontalCenter: parent.horizontalCenter
             font.family: "Verdana"
             fontSizeMode: Text.FixedSize
             verticalAlignment: Text.AlignVCenter
@@ -198,85 +276,6 @@ Item {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
             }
-        }
-
-        Text {
-            id: textColorScheme
-            x: -4
-            width: 173
-            height: 25
-            color: "#044e08"
-            text: qsTr("Color Scheme")
-            anchors.top: parent.top
-            anchors.topMargin: 50
-            anchors.horizontalCenter: parent.horizontalCenter
-            fontSizeMode: Text.FixedSize
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            font.family: "Verdana"
-            font.pixelSize: 22
-        }
-
-        Rectangle {
-            id: greenButtonRect
-            x: 15
-            y: 86
-            width: 120
-            height: 40
-            color: "#73d216"
-            radius: 5
-            Text {
-                id: greenText
-                width: 80
-                height: 40
-                color: "#044e08"
-                text: qsTr("Green")
-                font.bold: true
-                fontSizeMode: Text.HorizontalFit
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                font.pixelSize: 19
-                anchors.fill: parent
-            }
-
-            MouseArea {
-                id: greenButton
-                cursorShape: Qt.PointingHandCursor
-                anchors.fill: parent
-            }
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-        }
-
-        Rectangle {
-            id: classicButtonRect
-            x: 140
-            y: 86
-            width: 120
-            height: 40
-            color: "#73d216"
-            radius: 5
-            anchors.right: parent.right
-            Text {
-                id: classicText
-                width: 80
-                height: 40
-                color: "#044e08"
-                text: qsTr("Classic")
-                font.bold: true
-                fontSizeMode: Text.HorizontalFit
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                font.pixelSize: 19
-                anchors.fill: parent
-            }
-
-            MouseArea {
-                id: classicButton
-                cursorShape: Qt.PointingHandCursor
-                anchors.fill: parent
-            }
-            anchors.rightMargin: 10
         }
     }
 }

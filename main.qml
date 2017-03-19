@@ -3,8 +3,8 @@ import QtQuick.Window 2.2
 
 Window {
     property int numberOfTiles: gameBoard.numberOfTiles
-    property int widthWindow: (60*numberOfTiles + 50)
-    property int heightWindow: (60*numberOfTiles + 160)
+    property int widthWindow: (85*numberOfTiles + 50)
+    property int heightWindow: (85*numberOfTiles + 175)
 
     visible: true
     width: widthWindow

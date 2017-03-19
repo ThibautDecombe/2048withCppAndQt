@@ -61,9 +61,11 @@ void GameBoard::verifyRight()
                         refreshRef();
                     }
                     if ((*matrixNb[i+1][j] == *matrixNb[i][j]) && tiles[i+1][j]->getFusion() == false && tiles[i][j]->getFusion() == false){
+                        tiles[i+1][j]->resetTile();
+                        refreshRef();
+                        tileChanged();
                         tiles[i][j]->multNumber();
                         tiles[i][j]->setFusion(true);
-                        tiles[i+1][j]->resetTile();
                         changePlaces(i+1, j, i, j);
                         refreshRef();
                     }
@@ -90,9 +92,11 @@ void GameBoard::verifyLeft()
                         refreshRef();
                     }
                     if ((*matrixNb[i-1][j] == *matrixNb[i][j]) && tiles[i-1][j]->getFusion() == false && tiles[i][j]->getFusion() == false){
+                        tiles[i-1][j]->resetTile();
+                        refreshRef();
+                        tileChanged();
                         tiles[i][j]->multNumber();
                         tiles[i][j]->setFusion(true);
-                        tiles[i-1][j]->resetTile();
                         changePlaces(i-1, j, i, j);
                         refreshRef();
                     }
@@ -119,9 +123,11 @@ void GameBoard::verifyUp()
                         refreshRef();
                     }
                     if ((*matrixNb[i][j-1] == *matrixNb[i][j]) && tiles[i][j-1]->getFusion() == false && tiles[i][j]->getFusion() == false){
+                        tiles[i][j-1]->resetTile();
+                        refreshRef();
+                        tileChanged();
                         tiles[i][j]->multNumber();
                         tiles[i][j]->setFusion(true);
-                        tiles[i][j-1]->resetTile();
                         changePlaces(i, j-1, i, j);
                         refreshRef();
                     }
@@ -148,9 +154,11 @@ void GameBoard::verifyDown()
                         refreshRef();
                     }
                     if ((*matrixNb[i][j+1] == *matrixNb[i][j]) && tiles[i][j+1]->getFusion() == false && tiles[i][j]->getFusion() == false){
+                        tiles[i][j+1]->resetTile();
+                        refreshRef();
+                        tileChanged();
                         tiles[i][j]->multNumber();
                         tiles[i][j]->setFusion(true);
-                        tiles[i][j+1]->resetTile();
                         changePlaces(i, j+1, i, j);
                         refreshRef();
                     }
@@ -177,11 +185,17 @@ void GameBoard::createNewTile()
             }
         }
     }
-
-    int randNumber = rand() % 2 + 1;
-    int randIndex = rand() % (vecRand.length()/2 - 1);
-    tiles[vecRand.at(randIndex*2)][vecRand.at(randIndex*2+1)]->setNumber(randNumber*2);
-    refreshRef();
+    qDebug() << vecRand.length();
+    if (vecRand.length() == 2){
+        qDebug() <<  "YOU LOSE";
+        return;
+    }
+    else{
+        int randNumber = rand() % 2 + 1;
+        int randIndex = rand() % (vecRand.length()/2 - 1);
+        tiles[vecRand.at(randIndex*2)][vecRand.at(randIndex*2+1)]->setNumber(randNumber*2);
+        refreshRef();
+    }
 }
 
 void GameBoard::newGame()
@@ -298,7 +312,7 @@ void GameBoard::refreshRef()
 {
     for (int i=0; i < numberOfTiles; i++){
         for (int j=0; j < numberOfTiles; j++){
-            tiles[i][j]->setPosition(i*60 + 10, j*60 + 10);
+            tiles[i][j]->setPosition(i*85 + 10, j*85 + 10);
             matrixNb[i][j] = tiles[i][j]->getRefNumber();
         }
     }
@@ -333,7 +347,7 @@ void GameBoard::createTiles()
 */
     for (int i=0; i < numberOfTiles; i++){
         for (int j=0; j < numberOfTiles; j++){
-            tiles[i][j] = new Tile(i*60 + 10, j*60 + 10);
+            tiles[i][j] = new Tile(i*85 + 10, j*85 + 10);
             tilesQml[i + j*numberOfTiles] = tiles[i][j];
         }
     }

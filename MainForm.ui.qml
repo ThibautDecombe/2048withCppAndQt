@@ -1,9 +1,10 @@
 import QtQuick 2.6
+import QtGraphicalEffects 1.0
 
 Rectangle {
     id: gameWindow
-    width: 290
-    height: (60*numberOfTiles + 160)
+    width: (85*numberOfTiles + 160)//290
+    height: (85*numberOfTiles + 160)
     color: gameBoard.colorOptionsQml
     property alias optionsButton: optionsButton
     property alias newGameButton: newGameButton
@@ -12,23 +13,25 @@ Rectangle {
 
     Rectangle {
         id: optionsButtonRect
-        x: 170
-        y: 17
-        width: 100
+        anchors.right: parent.right
+        anchors.rightMargin: 20
+        anchors.top: parent.top
+        anchors.topMargin: 20
+        width: 40
         height: 40
         color: gameBoard.colorOptionsQml
         radius: 5
 
-        Text {
-            id: textOptions
-            color: gameBoard.colorOptionsQml
-            text: qsTr("Options")
-            font.bold: false
-            fontSizeMode: Text.HorizontalFit
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
+        Image {
+            id: image
             anchors.fill: parent
-            font.pixelSize: 19
+            source: "gear.png"
+        }
+
+        ColorOverlay {
+            anchors.fill:image
+            source: image
+            color: gameBoard.colorOptionsQml
         }
 
         MouseArea {
@@ -51,16 +54,100 @@ Rectangle {
         anchors.topMargin: 20
         anchors.left: parent.left
         anchors.leftMargin: 20
-        font.pixelSize: 29
+        font.pixelSize: 40
+    }
+
+    Rectangle {
+        id: scoreRect
+        anchors.left: title2048.right
+        anchors.leftMargin: 20
+        anchors.top: parent.top
+        anchors.topMargin: 20
+        width: 80
+        height: 40
+        color: "#00ff00"
+        radius: 5
+
+        Text {
+            id: scoreText
+            text: qsTr("SCORE")
+            anchors.top: parent.top
+            anchors.topMargin: 5
+            horizontalAlignment: Text.AlignHCenter
+            anchors.fill: parent
+            font.pixelSize: 10
+        }
+
+        Text {
+            id: scoreValue
+            text: qsTr("0")
+            font.family: "Verdana"
+            font.bold: true
+            color: "#ffffff"
+            anchors.top: parent.top
+            anchors.topMargin: 16
+            horizontalAlignment: Text.AlignHCenter
+            anchors.fill: parent
+            font.pixelSize: 14
+        }
+    }
+
+    Rectangle {
+        id: bestScoreRect
+        anchors.left: scoreRect.right
+        anchors.leftMargin: 5
+        anchors.top: parent.top
+        anchors.topMargin: 20
+        width: 80
+        height: 40
+        color: "#00ff00"
+        radius: 5
+
+        Text {
+            id: bestScoreText
+            text: qsTr("BEST")
+            anchors.top: parent.top
+            anchors.topMargin: 5
+            horizontalAlignment: Text.AlignHCenter
+            anchors.fill: parent
+            font.pixelSize: 10
+        }
+
+        Text {
+            id: bestScoreValue
+            text: qsTr("1000")
+            font.family: "Verdana"
+            font.bold: true
+            color: "#ffffff"
+            anchors.top: parent.top
+            anchors.topMargin: 16
+            horizontalAlignment: Text.AlignHCenter
+            anchors.fill: parent
+            font.pixelSize: 14
+        }
+    }
+
+    Text {
+        id: textExplaining
+        color: "#044e08" //gameBoard.colorOptionsQml
+        text: qsTr("Join the numbers and get to the 2048 tile!")
+        font.family: "Verdana"
+        anchors.left: title2048.left
+        anchors.leftMargin: 5
+        anchors.top: title2048.bottom
+        anchors.topMargin: 5
+        font.pixelSize: 12
     }
 
     Rectangle {
         id: newGameButtonRect
         x: 170
-        width: 100
+        width: 125
         height: 40
         anchors.bottom: rectangleTiles.top
-        anchors.bottomMargin: 30
+        anchors.bottomMargin: 10
+        anchors.left: rectangleTiles.left
+        anchors.leftMargin: 5
         color: gameBoard.colorOptionsQml
         radius: 5
 
@@ -83,18 +170,29 @@ Rectangle {
         }
     }
 
-    Text {
-        id: undoText
-        color: "#ff7e00"
-        text: qsTr("Undo")
-        font.family: "Verdana"
-        verticalAlignment: Text.AlignVCenter
-        horizontalAlignment: Text.AlignHCenter
+    Rectangle {
+        id: undoButtonRect
+        x: 170
+        width: 125
+        height: 40
         anchors.bottom: rectangleTiles.top
-        anchors.bottomMargin: 5
+        anchors.bottomMargin: 10
         anchors.right: rectangleTiles.right
         anchors.rightMargin: 5
-        font.pixelSize: 15
+        color: "#73d216" // gameBoard.colorOptionsQml
+        radius: 5
+
+        Text {
+            id: undoText
+            color: "#044e08" // gameBoard.colorOptionsQml
+            text: qsTr("Undo")
+            font.family: "Verdana"
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            font.pixelSize: 19
+        }
 
         MouseArea {
             id: undoButton
@@ -107,14 +205,14 @@ Rectangle {
     Rectangle {
         id: rectangleTiles
         y: 80
-        width: (60*numberOfTiles + 10)
-        height: (60*numberOfTiles + 10)
+        width: (85*numberOfTiles + 10)
+        height: (85*numberOfTiles + 10)
         color: gameBoard.colorOptionsQml //"#007615"
         radius: 15
         anchors.left: parent.left
         anchors.leftMargin: 20
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 20
+        anchors.top: parent.top
+        anchors.topMargin: 150
 
         Repeater {
             model: numberOfTiles*numberOfTiles
@@ -123,9 +221,10 @@ Rectangle {
                 y: gameBoard.posY
                 Behavior on x { PropertyAnimation { duration: 100}}
                 Behavior on y { PropertyAnimation { duration: 100}}
-                width: 50
-                height: 50
+                width: 75
+                height: 75
                 color: gameBoard.tileColor
+                Behavior on color { PropertyAnimation { duration: 100}}
                 radius: 5
                 z: 1
                 focus: true
@@ -140,7 +239,7 @@ Rectangle {
                     horizontalAlignment: Text.AlignHCenter
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
-                    font.pixelSize: 24
+                    font.pixelSize: 35
                 }
             }
         }
@@ -155,8 +254,8 @@ Rectangle {
             Repeater {
                 model: numberOfTiles*numberOfTiles
                 Rectangle {
-                    width: 50
-                    height: 50
+                    width: 75
+                    height: 75
                     color: gameBoard.colorOptionsQml //"#054c0b"
                     radius: 5
                 }

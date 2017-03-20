@@ -47,7 +47,6 @@ Rectangle {
         color: gameBoard.colorOptionsQml
         text: qsTr("2048")
         font.bold: true
-        font.family: "Verdana"
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
         anchors.top: parent.top
@@ -131,7 +130,6 @@ Rectangle {
         id: textExplaining
         color: "#044e08" //gameBoard.colorOptionsQml
         text: qsTr("Join the numbers and get to the 2048 tile!")
-        font.family: "Verdana"
         anchors.left: title2048.left
         anchors.leftMargin: 5
         anchors.top: title2048.bottom
@@ -181,6 +179,7 @@ Rectangle {
         anchors.rightMargin: 5
         color: "#73d216" // gameBoard.colorOptionsQml
         radius: 5
+        visible: gameModeBool
 
         Text {
             id: undoText
@@ -233,13 +232,14 @@ Rectangle {
                     color: gameBoard.tileTextColor
                     text: gameBoard.tileNb
                     z: 2
+                    font.family: textType
                     fontSizeMode: Text.FixedSize
                     textFormat: Text.AutoText
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
-                    font.pixelSize: 35
+                    font.pixelSize: tileTextSize
                 }
             }
         }

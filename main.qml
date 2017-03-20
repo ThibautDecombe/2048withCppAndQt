@@ -5,6 +5,9 @@ Window {
     property int numberOfTiles: gameBoard.numberOfTiles
     property int widthWindow: (85*numberOfTiles + 50)
     property int heightWindow: (85*numberOfTiles + 175)
+    property int tileTextSize: 35
+    property string textType: "Verdana"
+    property bool gameModeBool: true
 
     visible: true
     width: widthWindow

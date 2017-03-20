@@ -1,8 +1,12 @@
 import QtQuick 2.4
 
 Item {
-    width: 270 //(widthWindow - 20)
-    height: 380
+    width: 370 //(widthWindow - 20)
+    height: 495
+    property alias practiceButton: practiceButton
+    property alias normalButton: normalButton
+    property alias fontTypeButton: fontTypeButton
+    property alias fontSizeButton: fontSizeButton
     property alias classicButton: classicButton
     property alias greenButton: greenButton //(heightWindow - 20)
     property alias x4Button: x4Button
@@ -20,9 +24,9 @@ Item {
             id: textOptions
             color: "#044e08"
 
-            text: "Options"
+            text: "Game Options"
             font.bold: true
-            font.family: "Arial"
+            //font.family: "Verdana"
             font.pointSize: 19
             anchors.top: parent.top
             anchors.topMargin: 10
@@ -63,14 +67,93 @@ Item {
         }
 
         Text {
+            id: textGameMode
+            x: -7
+            y: 6
+            width: 173
+            height: 25
+            color: "#044e08"
+            text: qsTr("Game Mode")
+            anchors.topMargin: 50
+            fontSizeMode: Text.FixedSize
+            font.pixelSize: 22
+            anchors.horizontalCenter: parent.horizontalCenter
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            anchors.top: parent.top
+        }
+
+        Rectangle {
+            id: normalButtonRect
+            x: 17
+            y: -1
+            width: 120
+            height: 40
+            color: "#73d216"
+            radius: 5
+            anchors.right: parent.horizontalCenter
+            anchors.rightMargin: 10
+            anchors.topMargin: 10
+            Text {
+                id: normalText
+                color: "#044e08"
+                text: qsTr("Normal")
+                anchors.fill: parent
+                fontSizeMode: Text.HorizontalFit
+                font.bold: true
+                font.pixelSize: 19
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            MouseArea {
+                id: normalButton
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+            }
+            anchors.top: textGameMode.bottom
+        }
+
+        Rectangle {
+            id: practiceButtonRect
+            width: 120
+            height: 40
+            color: "#73d216"
+            radius: 5
+            anchors.left: parent.horizontalCenter
+            anchors.leftMargin: 10
+            anchors.topMargin: 10
+            Text {
+                id: practiceText
+                width: 80
+                height: 40
+                color: "#044e08"
+                text: qsTr("Practice")
+                anchors.fill: parent
+                fontSizeMode: Text.HorizontalFit
+                font.bold: true
+                font.pixelSize: 19
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            MouseArea {
+                id: practiceButton
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+            }
+            anchors.top: textGameMode.bottom
+        }
+
+        Text {
             id: textColorScheme
             x: -4
             width: 173
             height: 25
             color: "#044e08"
             text: qsTr("Color Scheme")
-            anchors.top: parent.top
-            anchors.topMargin: 50
+            anchors.top: normalButtonRect.bottom
+            anchors.topMargin: 10
             anchors.horizontalCenter: parent.horizontalCenter
             fontSizeMode: Text.FixedSize
             horizontalAlignment: Text.AlignHCenter
@@ -82,11 +165,14 @@ Item {
         Rectangle {
             id: greenButtonRect
             x: 15
-            y: 86
             width: 120
             height: 40
             color: "#73d216"
             radius: 5
+            anchors.right: parent.horizontalCenter
+            anchors.rightMargin: 10
+            anchors.top: textColorScheme.bottom
+            anchors.topMargin: 10
             Text {
                 id: greenText
                 width: 80
@@ -106,19 +192,18 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 anchors.fill: parent
             }
-            anchors.left: parent.left
-            anchors.leftMargin: 10
         }
 
         Rectangle {
             id: classicButtonRect
-            x: 140
-            y: 86
             width: 120
             height: 40
             color: "#73d216"
             radius: 5
-            anchors.right: parent.right
+            anchors.left: parent.horizontalCenter
+            anchors.leftMargin: 10
+            anchors.top: textColorScheme.bottom
+            anchors.topMargin: 10
             Text {
                 id: classicText
                 width: 80
@@ -138,14 +223,78 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 anchors.fill: parent
             }
+        }
+
+        Rectangle {
+            id: otherButtonRect
+            y: 7
+            width: 120
+            height: 40
+            color: "#73d216"
+            radius: 5
+            anchors.left: parent.horizontalCenter
+            anchors.leftMargin: 10
+            anchors.topMargin: 10
+            Text {
+                id: otherText
+                width: 80
+                height: 40
+                color: "#044e08"
+                text: qsTr("Other")
+                anchors.fill: parent
+                fontSizeMode: Text.HorizontalFit
+                font.bold: true
+                font.pixelSize: 19
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            MouseArea {
+                id: otherButton
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+            }
+            anchors.top: greenButtonRect.bottom
+        }
+
+        Rectangle {
+            id: neonButtonRect
+            x: 7
+            width: 120
+            height: 40
+            color: "#73d216"
+            radius: 5
+            anchors.right: parent.horizontalCenter
             anchors.rightMargin: 10
+            anchors.top: greenButtonRect.bottom
+            anchors.topMargin: 10
+            Text {
+                id: neonText
+                width: 80
+                height: 40
+                color: "#044e08"
+                text: qsTr("Neon")
+                anchors.fill: parent
+                fontSizeMode: Text.HorizontalFit
+                font.bold: true
+                font.pixelSize: 19
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            MouseArea {
+                id: neonButton
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+            }
         }
 
         Text {
             id: textSize
-            y: 190
             color: "#044e08"
             text: qsTr("Size")
+            anchors.top: neonButtonRect.bottom
+            anchors.topMargin: 10
             anchors.horizontalCenter: parent.horizontalCenter
             font.family: "Verdana"
             fontSizeMode: Text.FixedSize
@@ -156,13 +305,14 @@ Item {
 
         Rectangle {
             id: x4ButtonRect
-            y: 226
             width: 120 //(widthWindow - 50)/2
             height: 40
             color: "#73d216"
             radius: 5
-            anchors.left: parent.left
-            anchors.leftMargin: 10
+            anchors.right: parent.horizontalCenter
+            anchors.rightMargin: 10
+            anchors.top: textSize.bottom
+            anchors.topMargin: 10
 
             Text {
                 id: x4Text
@@ -187,14 +337,14 @@ Item {
 
         Rectangle {
             id: x5ButtonRect
-            x: -5
-            y: 226
             width: 120 //(widthWindow - 50)/2
             height: 40
             color: "#73d216"
             radius: 5
-            anchors.right: parent.right
-            anchors.rightMargin: 10
+            anchors.left: parent.horizontalCenter
+            anchors.leftMargin: 10
+            anchors.top: textSize.bottom
+            anchors.topMargin: 10
             Text {
                 id: x5Text
                 width: 80
@@ -219,12 +369,15 @@ Item {
         Rectangle {
             id: x6ButtonRect
             x: 8
-            y: 277
-            width: 120 //(widthWindow - 50)/2
+            width: 120
+            //(widthWindow - 50)/2
             height: 40
             color: "#73d216"
             radius: 5
-            anchors.leftMargin: 10
+            anchors.right: parent.horizontalCenter
+            anchors.rightMargin: 10
+            anchors.top: x4ButtonRect.bottom
+            anchors.topMargin: 10
             Text {
                 id: x6Text
                 width: 80
@@ -244,19 +397,18 @@ Item {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
             }
-            anchors.left: parent.left
         }
 
         Rectangle {
             id: x10ButtonRect
-            x: 9
-            y: 277
             width: 120 //(widthWindow - 50)/2
             height: 40
             color: "#73d216"
             radius: 5
-            anchors.right: parent.right
-            anchors.rightMargin: 10
+            anchors.left: parent.horizontalCenter
+            anchors.leftMargin: 10
+            anchors.top: x5ButtonRect.bottom
+            anchors.topMargin: 10
             Text {
                 id: x10Text
                 width: 80
@@ -273,6 +425,99 @@ Item {
 
             MouseArea {
                 id: x10Button
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+            }
+        }
+
+        Text {
+            id: fontSizeText
+            x: 4
+            color: "#044e08"
+            text: qsTr("Font Size")
+            anchors.horizontalCenter: fontSizeButtonRect.horizontalCenter
+            anchors.top: x6ButtonRect.bottom
+            anchors.topMargin: 10
+            font.family: "Verdana"
+            fontSizeMode: Text.FixedSize
+            font.pixelSize: 22
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
+
+        Rectangle {
+            id: fontSizeButtonRect
+            x: 6
+            width: 120
+            height: 40
+            color: "#73d216"
+            radius: 5
+            anchors.right: parent.horizontalCenter
+            anchors.rightMargin: 10
+            anchors.top: fontSizeText.bottom
+            anchors.topMargin: 10
+            Text {
+                id: fontBSizeText
+                width: 80
+                height: 40
+                color: "#044e08"
+                text: tileTextSize
+                anchors.fill: parent
+                fontSizeMode: Text.HorizontalFit
+                font.bold: true
+                font.pixelSize: 19
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            MouseArea {
+                id: fontSizeButton
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+            }
+        }
+
+        Text {
+            id: fontTypeText
+            x: 5
+            color: "#044e08"
+            text: qsTr("Font Type")
+            anchors.horizontalCenter: fontTypeButtonRect.horizontalCenter
+            anchors.top: x10ButtonRect.bottom
+            anchors.topMargin: 10
+            font.family: "Verdana"
+            fontSizeMode: Text.FixedSize
+            font.pixelSize: 22
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
+
+        Rectangle {
+            id: fontTypeButtonRect
+            width: 120
+            height: 40
+            color: "#73d216"
+            radius: 5
+            anchors.left: parent.horizontalCenter
+            anchors.leftMargin: 10
+            anchors.top: fontTypeText.bottom
+            anchors.topMargin: 10
+            Text {
+                id: fontBTypeText
+                width: 80
+                height: 40
+                color: "#044e08"
+                text: textType
+                anchors.fill: parent
+                fontSizeMode: Text.HorizontalFit
+                font.bold: true
+                font.pixelSize: 19
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            MouseArea {
+                id: fontTypeButton
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
             }

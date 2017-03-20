@@ -21,16 +21,11 @@ void GameBoard::moveRight()
 {
     verifyRight();
     tileChanged();
-    createNewTile();
-    tileChanged();
-
 }
 
 void GameBoard::moveLeft()
 {  
     verifyLeft();
-    tileChanged();
-    createNewTile();
     tileChanged();
 }
 
@@ -38,20 +33,17 @@ void GameBoard::moveUp()
 {
     verifyUp();
     tileChanged();
-    createNewTile();
-    tileChanged();
 }
 
 void GameBoard::moveDown()
 {
     verifyDown();
     tileChanged();
-    createNewTile();
-    tileChanged();
 }
 
 void GameBoard::verifyRight()
 {
+    bool callRandom = false;
     for (int j = 0; j < numberOfTiles; j++){
         for (int k = 0; k < numberOfTiles; k++){ // Pour répéter numberOfTiles fois
             for (int i = (numberOfTiles - 2); i >= 0; i--){
@@ -59,6 +51,7 @@ void GameBoard::verifyRight()
                     if (*matrixNb[i+1][j] == 0){
                         changePlaces(i+1, j, i, j);
                         refreshRef();
+                        callRandom = true;
                     }
                     if ((*matrixNb[i+1][j] == *matrixNb[i][j]) && tiles[i+1][j]->getFusion() == false && tiles[i][j]->getFusion() == false){
                         tiles[i+1][j]->resetTile();
@@ -68,6 +61,7 @@ void GameBoard::verifyRight()
                         tiles[i][j]->setFusion(true);
                         changePlaces(i+1, j, i, j);
                         refreshRef();
+                        callRandom =  true;
                     }
                 }
             }
@@ -79,10 +73,15 @@ void GameBoard::verifyRight()
             tiles[i][j]->setFusion(false);
         }
     }
+    if (callRandom){
+        createNewTile();
+        tileChanged();
+    }
 }
 
 void GameBoard::verifyLeft()
 {
+    bool callRandom = false;
     for (int j = 0; j < numberOfTiles; j++){
         for (int k = 0; k < numberOfTiles; k++){ // Pour répéter numberOfTiles fois
             for (int i = 1; i < numberOfTiles; i++){
@@ -90,6 +89,7 @@ void GameBoard::verifyLeft()
                     if (*matrixNb[i-1][j] == 0){
                         changePlaces(i-1, j, i, j);
                         refreshRef();
+                        callRandom = true;
                     }
                     if ((*matrixNb[i-1][j] == *matrixNb[i][j]) && tiles[i-1][j]->getFusion() == false && tiles[i][j]->getFusion() == false){
                         tiles[i-1][j]->resetTile();
@@ -99,6 +99,7 @@ void GameBoard::verifyLeft()
                         tiles[i][j]->setFusion(true);
                         changePlaces(i-1, j, i, j);
                         refreshRef();
+                        callRandom = true;
                     }
                 }
             }
@@ -110,10 +111,15 @@ void GameBoard::verifyLeft()
             tiles[i][j]->setFusion(false);
         }
     }
+    if (callRandom){
+        createNewTile();
+        tileChanged();
+    }
 }
 
 void GameBoard::verifyUp()
 {
+    bool callRandom = false;
     for (int i = 0; i < numberOfTiles; i++){
         for (int k = 0; k < numberOfTiles; k++){ // Pour répéter numberOfTiles fois
             for (int j = 1; j < numberOfTiles; j++){
@@ -121,6 +127,7 @@ void GameBoard::verifyUp()
                     if (*matrixNb[i][j-1] == 0){
                         changePlaces(i, j-1, i, j);
                         refreshRef();
+                        callRandom = true;
                     }
                     if ((*matrixNb[i][j-1] == *matrixNb[i][j]) && tiles[i][j-1]->getFusion() == false && tiles[i][j]->getFusion() == false){
                         tiles[i][j-1]->resetTile();
@@ -130,6 +137,7 @@ void GameBoard::verifyUp()
                         tiles[i][j]->setFusion(true);
                         changePlaces(i, j-1, i, j);
                         refreshRef();
+                        callRandom = true;
                     }
                 }
             }
@@ -141,10 +149,15 @@ void GameBoard::verifyUp()
             tiles[i][j]->setFusion(false);
         }
     }
+    if (callRandom){
+        createNewTile();
+        tileChanged();
+    }
 }
 
 void GameBoard::verifyDown()
 {
+    bool callRandom = false;
     for (int i = 0; i < numberOfTiles; i++){
         for (int k = 0; k < numberOfTiles; k++){ // Pour répéter numberOfTiles fois
             for (int j = (numberOfTiles-2); j >= 0; j--){
@@ -152,6 +165,7 @@ void GameBoard::verifyDown()
                     if (*matrixNb[i][j+1] == 0){
                         changePlaces(i, j+1, i, j);
                         refreshRef();
+                        callRandom = true;
                     }
                     if ((*matrixNb[i][j+1] == *matrixNb[i][j]) && tiles[i][j+1]->getFusion() == false && tiles[i][j]->getFusion() == false){
                         tiles[i][j+1]->resetTile();
@@ -161,6 +175,7 @@ void GameBoard::verifyDown()
                         tiles[i][j]->setFusion(true);
                         changePlaces(i, j+1, i, j);
                         refreshRef();
+                        callRandom = true;
                     }
                 }
             }
@@ -171,6 +186,10 @@ void GameBoard::verifyDown()
         for (int j=0; j < numberOfTiles; j++){
             tiles[i][j]->setFusion(false);
         }
+    }
+    if (callRandom){
+        createNewTile();
+        tileChanged();
     }
 }
 

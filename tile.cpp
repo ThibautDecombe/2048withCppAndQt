@@ -1,7 +1,9 @@
 #include "tile.h"
+#include "math.h"
 
 Tile::Tile(int x, int y)
 {
+    defineSetOfTilesColors("Green");
     tilePosition[0] = x;    // On initialise les positions
     tilePosition[1] = y;
     number = 0;             // On met le nombre à 0 -> tile invisible
@@ -22,22 +24,16 @@ void Tile::setPosition(int x, int y)
 void Tile::setColor()               // Fonction pour mettre les couleurs selon le nombre
 {
     if (number == 0){
-        tileColor = "#00000000";
+        tileColor = setOfColors.at(0);
+        textColor = setOfColorsText.at(0);
+        return;
     }
-    if (number == 2){
-        tileColor = "#04f211";
-    }
-    if (number == 4){
-        tileColor = "#229468";
-    }
-    if (number == 8){
-        tileColor = "#225594";
-    }
-    if (number == 16){
-        tileColor = "#482294";
-    }
-    if (number == 32){
-        tileColor = "#812294";
+    for (int i=1; i <= 11; i++){
+        if (number == pow(2,i)){
+            tileColor = setOfColors.at(i);
+            textColor = setOfColorsText.at(i);
+            return;
+        }
     }
 }
 
@@ -65,6 +61,64 @@ void Tile::resetTile()          // On resète le Tile
     setColor();                 // Couleur = transparent
 }
 
+void Tile::defineSetOfTilesColors(QString nameOfTheSet)
+{
+    QStringList tempSetOfColors, tempSetOfColorsText;
+
+    if (nameOfTheSet == "Green"){
+
+        tempSetOfColors << "#00000000" << "#04f211" << "#ded202" <<
+                             "#225594" << "#482294" << "#812294" <<
+                             "#229468" << "#c305b9" << "#de020d" <<
+                             "#de4b02" << "#0599c3" << "#ffffff";
+
+        tempSetOfColorsText << "#00000000" << "#0a4403" << "#0a4403"
+                            << "#ffffff"   << "#0a4403" << "#0a4403"
+                            << "#0a4403"   << "#0a4403" << "#0a4403"
+                            << "#0a4403"   << "#0a4403" << "#0a4403";
+    }
+    if (nameOfTheSet == "Classic"){
+
+        tempSetOfColors << "#00000000" << "#eee4dA" << "#ede0c8" <<
+                           "#f2b179" << "#f59664" << "#f57d5f" <<
+                           "#f55f3c" << "#edcf72" << "#edcf61" <<
+                           "#ffff00" << "#ffff00" << "#ffff00";
+
+        tempSetOfColorsText << "#00000000" << "#776e65" << "#776e65"
+                            << "#ffffff"   << "#ffffff" << "#ffffff"
+                            << "#ffffff"   << "#ffffff" << "#ffffff"
+                            << "#ffffff"   << "#ffffff" << "#ffffff";
+    }
+    if (nameOfTheSet == "Brazil"){
+
+        tempSetOfColors << "#00000000" << "#00700d" << "#20a430" <<
+                           "#4fcb5d" << "#5afd3a" << "#96fd3a" <<
+                           "#d6fd3a" << "#fbfd3a" << "#fcff0b" <<
+                           "#7f85ff" << "#444dff" << "#000cff";
+
+        tempSetOfColorsText << "#00000000" << "#fcff0b" << "#fcff0b"
+                            << "#fcff0b"   << "#fcff0b" << "#fcff0b"
+                            << "#00700d"   << "#00700d" << "#00700d"
+                            << "#ffffff"   << "#ffffff" << "#05053b";
+    }
+    if (nameOfTheSet == "France"){
+
+        tempSetOfColors << "#00000000" << "#ffffff" << "#b2b2ff" <<
+                           "#7a7aff" << "#4a4aff" << "#1313ff" <<
+                           "#0000ff" << "#ff9898" << "#ff5555" <<
+                           "#ff2020" << "#ff0000" << "#ffffff";
+
+        tempSetOfColorsText << "#00000000" << "#05053b" << "#05053b"
+                            << "#ffffff"   << "#ffffff" << "#ffffff"
+                            << "#ffffff"   << "#ffffff" << "#ffffff"
+                            << "#ffffff"   << "#ffffff" << "#05053b";
+    }
+
+
+    setOfColors = tempSetOfColors;
+    setOfColorsText = tempSetOfColorsText;
+}
+
 int Tile::getPosition(int a)    // Recupère la position
 {
     return tilePosition[a];
@@ -77,12 +131,7 @@ QString Tile::getColor()        // Recupère la couleur
 
 QString Tile::getTextColor()    // Recupère la couleur du texte
 {
-    if (number == 0){           // Si nombre = 0
-        return "#00000000";     // couleur du texte = transparent
-    }
-    else                        // Sinon,
-        return "#0a4403";       // couleur vert
-
+    return textColor;
 }
 
 QString Tile::getNumber()       // Recupère le nombre en forme de String

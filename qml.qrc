@@ -4,5 +4,9 @@
         <file>MainForm.ui.qml</file>
         <file>Options.qml</file>
         <file>OptionsForm.ui.qml</file>
+        <file>gear.png</file>
+        <file>Info.qml</file>
+        <file>InfoForm.ui.qml</file>
+        <file>dog.gif</file>
     </qresource>
 </RCC>

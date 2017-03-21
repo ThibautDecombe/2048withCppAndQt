@@ -238,17 +238,14 @@ void GameBoard::setNumberOfTiles(int n)
     deleteTiles();
     numberOfTiles = n;
     createTiles();
-    refreshRef();
     defineSetOfColors(indColorOptions);
-    createNewTile();
-    refreshRef();
+    createNewTile();;
     tileChanged();
 }
 
 void GameBoard::defineSetOfColors(int n)
 {
     QList<QString> tempColors;
-
     if (n == 0){
         tempColors << "#007615" << "#044e08" << "#73d216" << "#98fb83" << "#054c0b" << "#054c0b" << "#bbffa9" << "#73d216";
         for (int i=0; i < numberOfTiles; i++){
@@ -285,7 +282,6 @@ void GameBoard::defineSetOfColors(int n)
             }
         }
     }
-
     colorsList = tempColors;
     indColorOptions = n;
     tileChanged();
@@ -369,7 +365,9 @@ void GameBoard::changePlaces(int i1, int j1, int i2, int j2)
 
 void GameBoard::createTiles()
 {
-    qDebug() << "Create Tiles nb: " << numberOfTiles;
+    indX = 0, indY = 0, indNb = 0, indColor = 0,
+            indTextColor = 0, indColorOptions = 0;
+
     tiles = new Tile**[numberOfTiles];
     for (int i=0; i < numberOfTiles; i++) tiles[i] = new Tile*[numberOfTiles];
 
@@ -390,7 +388,6 @@ void GameBoard::createTiles()
 
 void GameBoard::deleteTiles()
 {
-    qDebug() << "Destruct pointers, nb: " << numberOfTiles;
     if (matrixNb != NULL){
         for (int i=0; i < numberOfTiles; i++){
             delete[] matrixNb[i];

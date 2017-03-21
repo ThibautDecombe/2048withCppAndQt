@@ -43,7 +43,6 @@ public:
 
 signals:
     void tileChanged();     // Signal pour mettre à jour le qml
-    //void tileNbChanged();
 
 private:
     int numberOfTiles;

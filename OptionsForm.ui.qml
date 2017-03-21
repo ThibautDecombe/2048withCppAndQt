@@ -13,6 +13,9 @@ Item {
     property alias classicButton: classicButton
     property alias greenButton: greenButton //(heightWindow - 20)
     property alias x4Button: x4Button
+    property alias x5Button: x5Button
+    property alias x6Button: x6Button
+    property alias x7Button: x7Button
     property alias quitButton: quitButton
 
     Rectangle {
@@ -409,7 +412,7 @@ Item {
         }
 
         Rectangle {
-            id: x10ButtonRect
+            id: x7ButtonRect
             width: 120
             height: 40
             color: gameBoard.colorsList[7]
@@ -419,11 +422,11 @@ Item {
             anchors.top: x5ButtonRect.bottom
             anchors.topMargin: 10
             Text {
-                id: x10Text
+                id: x7Text
                 width: 80
                 height: 40
                 color: gameBoard.colorsList[4]
-                text: qsTr("10x10")
+                text: qsTr("7x7")
                 font.pixelSize: 19
                 horizontalAlignment: Text.AlignHCenter
                 fontSizeMode: Text.HorizontalFit
@@ -433,7 +436,7 @@ Item {
             }
 
             MouseArea {
-                id: x10Button
+                id: x7Button
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
                 visible: optionsButtons
@@ -494,7 +497,7 @@ Item {
             color: gameBoard.colorsList[5]
             text: qsTr("Font Type")
             anchors.horizontalCenter: fontTypeButtonRect.horizontalCenter
-            anchors.top: x10ButtonRect.bottom
+            anchors.top: x7ButtonRect.bottom
             anchors.topMargin: 10
             font.family: "Verdana"
             fontSizeMode: Text.FixedSize

@@ -78,8 +78,23 @@ OptionsForm {
     }
 
     x4Button.onClicked: {
-        heightWindow = 400;
-        widthWindow = 290;
+        numberOfTiles = 4
+        gameBoard.setNumberOfTiles(4);
+    }
+
+    x5Button.onClicked: {
+        numberOfTiles = 5
+        gameBoard.setNumberOfTiles(5);
+    }
+
+    x6Button.onClicked: {
+        numberOfTiles = 6
+        gameBoard.setNumberOfTiles(6);
+    }
+
+    x7Button.onClicked: {
+        numberOfTiles = 7
+        gameBoard.setNumberOfTiles(7);
     }
 
     quitButton{

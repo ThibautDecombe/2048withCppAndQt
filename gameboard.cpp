@@ -235,26 +235,23 @@ void GameBoard::undoGame()
 
 void GameBoard::setNumberOfTiles(int n)
 {
-    numberOfTiles = n;
-    //tileNbChanged();
     deleteTiles();
+    numberOfTiles = n;
     createTiles();
-    refreshRef();
-    tiles[0][0]->setNumber();
-    qDebug() << "Object GameBoard created";
+    defineSetOfColors(indColorOptions);
+    createNewTile();;
     tileChanged();
 }
 
 void GameBoard::defineSetOfColors(int n)
 {
     QList<QString> tempColors;
-
     if (n == 0){
         tempColors << "#007615" << "#044e08" << "#73d216" << "#98fb83" << "#054c0b" << "#054c0b" << "#bbffa9" << "#73d216";
         for (int i=0; i < numberOfTiles; i++){
             for (int j=0; j < numberOfTiles; j++){
-                tilesQml[i + j*numberOfTiles]->defineSetOfTilesColors("Green");
-                tilesQml[i + j*numberOfTiles]->setColor();
+                tilesQml[j + i*numberOfTiles]->defineSetOfTilesColors("Green");
+                tilesQml[j + i*numberOfTiles]->setColor();
             }
         }
     }
@@ -262,8 +259,8 @@ void GameBoard::defineSetOfColors(int n)
         tempColors << "#baae9d" << "#ccc2b3" << "#ccc2b3" << "#faf9f0"<< "#ffffff" << "#746c6b" << "#f6f2c9" << "#8f7a66";
         for (int i=0; i < numberOfTiles; i++){
             for (int j=0; j < numberOfTiles; j++){
-                tilesQml[i + j*numberOfTiles]->defineSetOfTilesColors("Classic");
-                tilesQml[i + j*numberOfTiles]->setColor();
+                tilesQml[j + i*numberOfTiles]->defineSetOfTilesColors("Classic");
+                tilesQml[j + i*numberOfTiles]->setColor();
             }
         }
     }
@@ -271,8 +268,8 @@ void GameBoard::defineSetOfColors(int n)
         tempColors << "#ffcc29" << "#fff773" << "#3E4095" << "#0fa31f"<< "#ffffff" << "#ffffff" << "#3be54f" << "#3E4095";
         for (int i=0; i < numberOfTiles; i++){
             for (int j=0; j < numberOfTiles; j++){
-                tilesQml[i + j*numberOfTiles]->defineSetOfTilesColors("Brazil");
-                tilesQml[i + j*numberOfTiles]->setColor();
+                tilesQml[j + i*numberOfTiles]->defineSetOfTilesColors("Brazil");
+                tilesQml[j + i*numberOfTiles]->setColor();
             }
         }
     }
@@ -280,8 +277,8 @@ void GameBoard::defineSetOfColors(int n)
         tempColors << "#051440" << "#030f2f" << "#ec1920" << "#020c29"<< "#ffffff" << "#ffffff" << "#0f3ba9" << "#ec1920";
         for (int i=0; i < numberOfTiles; i++){
             for (int j=0; j < numberOfTiles; j++){
-                tilesQml[i + j*numberOfTiles]->defineSetOfTilesColors("France");
-                tilesQml[i + j*numberOfTiles]->setColor();
+                tilesQml[j + i*numberOfTiles]->defineSetOfTilesColors("France");
+                tilesQml[j + i*numberOfTiles]->setColor();
             }
         }
     }
@@ -368,55 +365,50 @@ void GameBoard::changePlaces(int i1, int j1, int i2, int j2)
 
 void GameBoard::createTiles()
 {
-    /*
+    indX = 0, indY = 0, indNb = 0, indColor = 0,
+            indTextColor = 0, indColorOptions = 0;
+
     tiles = new Tile**[numberOfTiles];
     for (int i=0; i < numberOfTiles; i++) tiles[i] = new Tile*[numberOfTiles];
 
     matrixNb = new int**[numberOfTiles];
     for (int i=0; i < numberOfTiles; i++) matrixNb[i] = new int*[numberOfTiles];
 
-    tilesQml = new Tile*[numberOfTiles];
-*/
+    tilesQml = new Tile*[numberOfTiles*numberOfTiles];
+
     for (int i=0; i < numberOfTiles; i++){
         for (int j=0; j < numberOfTiles; j++){
             tiles[i][j] = new Tile(i*85 + 10, j*85 + 10);
-            tilesQml[i + j*numberOfTiles] = tiles[i][j];
+            tilesQml[j + i*numberOfTiles] = tiles[i][j];
         }
     }
+
+    refreshRef();
 }
 
 void GameBoard::deleteTiles()
 {
-/*
-    qDebug() << "tiles * destroyed";
     if (matrixNb != NULL){
         for (int i=0; i < numberOfTiles; i++){
             delete[] matrixNb[i];
         }
         delete[] matrixNb;
     }
-    qDebug() << "matrix Nb destroyed";
 
     if (tilesQml != NULL){
         delete [] tilesQml;
     }
-*/
-    qDebug() << "tiles QML destroyed";
 
     for (int i=0; i < numberOfTiles ; i++){
         for (int j=0; j < numberOfTiles; j++){
             delete tiles[i][j];
         }
     }
-/*
-    qDebug() << "tiles destroyed";
+
     if (tiles != NULL){
-        qDebug() << "tiles != Null";
         for (int i=0; i < numberOfTiles; i++){
             delete[] tiles[i];
         }
         delete[] tiles;
     }
-*/
-
 }

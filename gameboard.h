@@ -52,13 +52,13 @@ private:
     int indColorOptions = 0;
     QList<QString> colorsList;
 
-    //Tile*** tiles;
-    //Tile** tilesQml;
-    //int*** matrixNb;
+    Tile*** tiles;
+    Tile** tilesQml;
+    int*** matrixNb;
 
-    Tile* tiles[4][4];      // Matrice qui contient les pointeurs des objets crées dynamiquement
-    Tile* tilesQml[16];     // Liste pour passer les infos au qml
-    int* matrixNb[4][4];    // Matrice pour faire la logique des mouvements
+    //Tile* tiles[4][4];      // Matrice qui contient les pointeurs des objets crées dynamiquement
+    //Tile* tilesQml[16];     // Liste pour passer les infos au qml
+    //int* matrixNb[4][4];    // Matrice pour faire la logique des mouvements
 
     void refreshRef();                                  // On refait les références
     void printInfo();                                   // Print pour debug

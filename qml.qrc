@@ -5,5 +5,7 @@
         <file>Options.qml</file>
         <file>OptionsForm.ui.qml</file>
         <file>gear.png</file>
+        <file>Info.qml</file>
+        <file>InfoForm.ui.qml</file>
     </qresource>
 </RCC>

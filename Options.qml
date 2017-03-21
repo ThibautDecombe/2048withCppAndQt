@@ -6,14 +6,15 @@ OptionsForm {
     width: (widthWindow - 20)
     height: (heightWindow - 20)
     property int textTypeInt: 0
+    property bool optionsButtons: true
 
     normalButton.onClicked: {
-        gameModeBool = true
+        gameModeBool = false
         console.log(gameModeBool)
     }
 
     practiceButton.onClicked: {
-        gameModeBool = false
+        gameModeBool = true
         console.log(gameModeBool)
     }
 
@@ -68,14 +69,29 @@ OptionsForm {
         gameBoard.defineSetOfColors(0)
     }
 
+    brazilButton.onClicked: {
+        gameBoard.defineSetOfColors(2)
+    }
+
+    franceButton.onClicked: {
+        gameBoard.defineSetOfColors(3)
+    }
+
     x4Button.onClicked: {
         heightWindow = 400;
         widthWindow = 290;
-}
+    }
 
     quitButton{
         onClicked: {optionsWindow.destroy();
-                    a = true;}
+                    mainButtons = true;}
     }
+
+    infoButton.onClicked: {
+                optionsButtons = false;
+                var componentInfo = Qt.createComponent("Info.qml");
+                console.log("Component Status:", componentInfo.status, componentInfo.errorString());
+                var windowInfo = componentInfo.createObject(optionsWindow, {"x": 5, "y": 5});
+        }
 
 }

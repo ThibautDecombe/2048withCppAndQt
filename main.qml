@@ -13,7 +13,7 @@ Window {
     width: widthWindow
     height: heightWindow
     title: qsTr("2048")
-    property bool a: true
+    property bool mainButtons: true
 
     MainForm {
         anchors.fill: parent
@@ -30,7 +30,7 @@ Window {
 
         optionsButton{
             onClicked: {
-                a = false;
+                mainButtons = false;
                 var component = Qt.createComponent("Options.qml");
                 console.log("Component Status:", component.status, component.errorString());
                 var window = component.createObject(gameWindow, {"x": 10, "y": 10});

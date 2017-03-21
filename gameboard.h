@@ -8,6 +8,7 @@
 #include <stdlib.h> // Pour la fonction random
 #include <time.h>   // Pour initialiser la fonction random
 #include <QStringList>
+#include <QList>
 
 class GameBoard : public QObject    // GameBoard hérite QObject
 {
@@ -37,8 +38,8 @@ public:
     QString readTileTextColor();
     Q_PROPERTY(int numberOfTiles READ readNumberOfTiles NOTIFY tileChanged)
     int readNumberOfTiles();
-    Q_PROPERTY(QString colorOptionsQml READ readColorOptions NOTIFY tileChanged)
-    QString readColorOptions();
+    Q_PROPERTY(QList<QString> colorsList READ readColorsList NOTIFY tileChanged)
+    QList<QString> readColorsList();
 
 signals:
     void tileChanged();     // Signal pour mettre à jour le qml
@@ -49,7 +50,7 @@ private:
     int indX = 0, indY = 0, indNb = 0, indColor = 0, indTextColor = 0;  // indices pour passer les données au qml
 
     int indColorOptions = 0;
-    QStringList colorOptions;
+    QList<QString> colorsList;
 
     //Tile*** tiles;
     //Tile** tilesQml;

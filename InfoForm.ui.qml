@@ -147,5 +147,16 @@ Item {
             anchors.top: stephaneName.bottom
             anchors.topMargin: 5
         }
+
+        AnimatedImage {
+            id: animationDog
+            height: 125
+            width: 125
+            source: "dog.gif"
+            anchors.top: emmanuelName.bottom
+            anchors.topMargin: 10
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+        }
     }
 }

@@ -13,8 +13,8 @@ Rectangle {
 
     Rectangle {
         id: optionsButtonRect
-        anchors.right: parent.right
-        anchors.rightMargin: 20
+        anchors.right: rectangleTiles.right
+        anchors.rightMargin: 0
         anchors.top: parent.top
         anchors.topMargin: 20
         width: 40

@@ -7,5 +7,6 @@
         <file>gear.png</file>
         <file>Info.qml</file>
         <file>InfoForm.ui.qml</file>
+        <file>dog.gif</file>
     </qresource>
 </RCC>

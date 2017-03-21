@@ -89,6 +89,31 @@ void Tile::defineSetOfTilesColors(QString nameOfTheSet)
                             << "#ffffff"   << "#ffffff" << "#ffffff"
                             << "#ffffff"   << "#ffffff" << "#ffffff";
     }
+    if (nameOfTheSet == "Brazil"){
+
+        tempSetOfColors << "#00000000" << "#00700d" << "#20a430" <<
+                           "#4fcb5d" << "#5afd3a" << "#96fd3a" <<
+                           "#d6fd3a" << "#fbfd3a" << "#fcff0b" <<
+                           "#7f85ff" << "#444dff" << "#000cff";
+
+        tempSetOfColorsText << "#00000000" << "#fcff0b" << "#fcff0b"
+                            << "#fcff0b"   << "#fcff0b" << "#fcff0b"
+                            << "#00700d"   << "#00700d" << "#00700d"
+                            << "#ffffff"   << "#ffffff" << "#05053b";
+    }
+    if (nameOfTheSet == "France"){
+
+        tempSetOfColors << "#00000000" << "#ffffff" << "#b2b2ff" <<
+                           "#7a7aff" << "#4a4aff" << "#1313ff" <<
+                           "#0000ff" << "#ff9898" << "#ff5555" <<
+                           "#ff2020" << "#ff0000" << "#ffffff";
+
+        tempSetOfColorsText << "#00000000" << "#05053b" << "#05053b"
+                            << "#ffffff"   << "#ffffff" << "#ffffff"
+                            << "#ffffff"   << "#ffffff" << "#ffffff"
+                            << "#ffffff"   << "#ffffff" << "#05053b";
+    }
+
 
     setOfColors = tempSetOfColors;
     setOfColorsText = tempSetOfColorsText;

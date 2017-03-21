@@ -5,7 +5,7 @@ Rectangle {
     id: gameWindow
     width: (85*numberOfTiles + 160)//290
     height: (85*numberOfTiles + 160)
-    color: gameBoard.colorOptionsQml
+    color: gameBoard.colorsList[3]
     property alias optionsButton: optionsButton
     property alias newGameButton: newGameButton
     property alias undoButton: undoButton
@@ -19,7 +19,7 @@ Rectangle {
         anchors.topMargin: 20
         width: 40
         height: 40
-        color: gameBoard.colorOptionsQml
+        color: gameBoard.colorsList[2]
         radius: 5
 
         Image {
@@ -31,23 +31,22 @@ Rectangle {
         ColorOverlay {
             anchors.fill:image
             source: image
-            color: gameBoard.colorOptionsQml
+            color: gameBoard.colorsList[5]
         }
 
         MouseArea {
             id: optionsButton
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
-            visible: a
+            visible: mainButtons
         }
     }
 
     Text {
         id: title2048
-        color: gameBoard.colorOptionsQml
+        color: gameBoard.colorsList[5]
         text: qsTr("2048")
         font.bold: true
-        font.family: "Verdana"
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
         anchors.top: parent.top
@@ -65,12 +64,13 @@ Rectangle {
         anchors.topMargin: 20
         width: 80
         height: 40
-        color: "#00ff00"
+        color: gameBoard.colorsList[2]
         radius: 5
 
         Text {
             id: scoreText
             text: qsTr("SCORE")
+            color: gameBoard.colorsList[4]
             anchors.top: parent.top
             anchors.topMargin: 5
             horizontalAlignment: Text.AlignHCenter
@@ -81,11 +81,10 @@ Rectangle {
         Text {
             id: scoreValue
             text: qsTr("0")
-            font.family: "Verdana"
             font.bold: true
-            color: "#ffffff"
+            color:  gameBoard.colorsList[4]
             anchors.top: parent.top
-            anchors.topMargin: 16
+            anchors.topMargin: 18
             horizontalAlignment: Text.AlignHCenter
             anchors.fill: parent
             font.pixelSize: 14
@@ -100,12 +99,13 @@ Rectangle {
         anchors.topMargin: 20
         width: 80
         height: 40
-        color: "#00ff00"
+        color: gameBoard.colorsList[2]
         radius: 5
 
         Text {
             id: bestScoreText
             text: qsTr("BEST")
+            color: gameBoard.colorsList[4]
             anchors.top: parent.top
             anchors.topMargin: 5
             horizontalAlignment: Text.AlignHCenter
@@ -116,11 +116,10 @@ Rectangle {
         Text {
             id: bestScoreValue
             text: qsTr("1000")
-            font.family: "Verdana"
             font.bold: true
-            color: "#ffffff"
+            color: gameBoard.colorsList[4]
             anchors.top: parent.top
-            anchors.topMargin: 16
+            anchors.topMargin: 18
             horizontalAlignment: Text.AlignHCenter
             anchors.fill: parent
             font.pixelSize: 14
@@ -129,9 +128,8 @@ Rectangle {
 
     Text {
         id: textExplaining
-        color: "#044e08" //gameBoard.colorOptionsQml
+        color: gameBoard.colorsList[5]
         text: qsTr("Join the numbers and get to the 2048 tile!")
-        font.family: "Verdana"
         anchors.left: title2048.left
         anchors.leftMargin: 5
         anchors.top: title2048.bottom
@@ -148,12 +146,12 @@ Rectangle {
         anchors.bottomMargin: 10
         anchors.left: rectangleTiles.left
         anchors.leftMargin: 5
-        color: gameBoard.colorOptionsQml
+        color:gameBoard.colorsList[7]
         radius: 5
 
         Text {
             id: textNewGame
-            color: gameBoard.colorOptionsQml
+            color: gameBoard.colorsList[4]
             text: qsTr("New Game")
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
@@ -166,7 +164,7 @@ Rectangle {
             id: newGameButton
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
-            visible: a
+            visible: mainButtons
         }
     }
 
@@ -179,14 +177,14 @@ Rectangle {
         anchors.bottomMargin: 10
         anchors.right: rectangleTiles.right
         anchors.rightMargin: 5
-        color: "#73d216" // gameBoard.colorOptionsQml
+        color: gameBoard.colorsList[7]
         radius: 5
+        visible: gameModeBool
 
         Text {
             id: undoText
-            color: "#044e08" // gameBoard.colorOptionsQml
+            color: gameBoard.colorsList[4]
             text: qsTr("Undo")
-            font.family: "Verdana"
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
@@ -198,7 +196,7 @@ Rectangle {
             id: undoButton
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
-            visible: a
+            visible: mainButtons
         }
     }
 
@@ -207,7 +205,7 @@ Rectangle {
         y: 80
         width: (85*numberOfTiles + 10)
         height: (85*numberOfTiles + 10)
-        color: gameBoard.colorOptionsQml //"#007615"
+        color:  gameBoard.colorsList[0]
         radius: 15
         anchors.left: parent.left
         anchors.leftMargin: 20
@@ -233,13 +231,14 @@ Rectangle {
                     color: gameBoard.tileTextColor
                     text: gameBoard.tileNb
                     z: 2
+                    font.family: textType
                     fontSizeMode: Text.FixedSize
                     textFormat: Text.AutoText
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
-                    font.pixelSize: 35
+                    font.pixelSize: tileTextSize
                 }
             }
         }
@@ -256,7 +255,7 @@ Rectangle {
                 Rectangle {
                     width: 75
                     height: 75
-                    color: gameBoard.colorOptionsQml //"#054c0b"
+                    color:  gameBoard.colorsList[1]
                     radius: 5
                 }
             }

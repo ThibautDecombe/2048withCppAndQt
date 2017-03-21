@@ -366,7 +366,7 @@ void GameBoard::changePlaces(int i1, int j1, int i2, int j2)
 void GameBoard::createTiles()
 {
     indX = 0, indY = 0, indNb = 0, indColor = 0,
-            indTextColor = 0, indColorOptions = 0;
+            indTextColor = 0;
 
     tiles = new Tile**[numberOfTiles];
     for (int i=0; i < numberOfTiles; i++) tiles[i] = new Tile*[numberOfTiles];

@@ -1,54 +1,216 @@
 import QtQuick 2.6
+import QtGraphicalEffects 1.0
 
 Rectangle {
     id: gameWindow
-    width: 290
-    height: (60*numberOfTiles + 160)
-    color: "#98fb83"
+    width: (85*numberOfTiles + 160)//290
+    height: (85*numberOfTiles + 160)
+    color: gameBoard.colorsList[3]
     property alias optionsButton: optionsButton
     property alias newGameButton: newGameButton
-    property alias rectangle: rectangle
+    property alias undoButton: undoButton
+    property alias rectangleTiles: rectangleTiles
 
     Rectangle {
         id: optionsButtonRect
-        x: 170
-        y: 17
-        width: 100
+        anchors.right: rectangleTiles.right
+        anchors.rightMargin: 0
+        anchors.top: parent.top
+        anchors.topMargin: 20
+        width: 40
         height: 40
-        color: "#73d216"
+        color: gameBoard.colorsList[2]
         radius: 5
 
-        Text {
-            id: textOptions
-            color: "#044e08"
-            text: qsTr("Options")
-            font.bold: false
-            fontSizeMode: Text.HorizontalFit
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
+        Image {
+            id: image
             anchors.fill: parent
-            font.pixelSize: 19
+            source: "gear.png"
+        }
+
+        ColorOverlay {
+            anchors.fill:image
+            source: image
+            color: gameBoard.colorsList[5]
         }
 
         MouseArea {
             id: optionsButton
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
-            visible: a
+            visible: mainButtons
+        }
+    }
+
+    Text {
+        id: title2048
+        color: gameBoard.colorsList[5]
+        text: qsTr("2048")
+        font.bold: true
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+        anchors.top: parent.top
+        anchors.topMargin: 20
+        anchors.left: parent.left
+        anchors.leftMargin: 20
+        font.pixelSize: 40
+    }
+
+    Rectangle {
+        id: scoreRect
+        anchors.left: title2048.right
+        anchors.leftMargin: 20
+        anchors.top: parent.top
+        anchors.topMargin: 20
+        width: 80
+        height: 40
+        color: gameBoard.colorsList[2]
+        radius: 5
+
+        Text {
+            id: scoreText
+            text: qsTr("SCORE")
+            color: gameBoard.colorsList[4]
+            anchors.top: parent.top
+            anchors.topMargin: 5
+            horizontalAlignment: Text.AlignHCenter
+            anchors.fill: parent
+            font.pixelSize: 10
+        }
+
+        Text {
+            id: scoreValue
+            text: qsTr("0")
+            font.bold: true
+            color:  gameBoard.colorsList[4]
+            anchors.top: parent.top
+            anchors.topMargin: 18
+            horizontalAlignment: Text.AlignHCenter
+            anchors.fill: parent
+            font.pixelSize: 14
         }
     }
 
     Rectangle {
-        id: rectangle
+        id: bestScoreRect
+        anchors.left: scoreRect.right
+        anchors.leftMargin: 5
+        anchors.top: parent.top
+        anchors.topMargin: 20
+        width: 80
+        height: 40
+        color: gameBoard.colorsList[2]
+        radius: 5
+
+        Text {
+            id: bestScoreText
+            text: qsTr("BEST")
+            color: gameBoard.colorsList[4]
+            anchors.top: parent.top
+            anchors.topMargin: 5
+            horizontalAlignment: Text.AlignHCenter
+            anchors.fill: parent
+            font.pixelSize: 10
+        }
+
+        Text {
+            id: bestScoreValue
+            text: qsTr("1000")
+            font.bold: true
+            color: gameBoard.colorsList[4]
+            anchors.top: parent.top
+            anchors.topMargin: 18
+            horizontalAlignment: Text.AlignHCenter
+            anchors.fill: parent
+            font.pixelSize: 14
+        }
+    }
+
+    Text {
+        id: textExplaining
+        color: gameBoard.colorsList[5]
+        text: qsTr("Join the numbers and get to the 2048 tile!")
+        anchors.left: title2048.left
+        anchors.leftMargin: 5
+        anchors.top: title2048.bottom
+        anchors.topMargin: 5
+        font.pixelSize: 12
+    }
+
+    Rectangle {
+        id: newGameButtonRect
+        x: 170
+        width: 125
+        height: 40
+        anchors.bottom: rectangleTiles.top
+        anchors.bottomMargin: 10
+        anchors.left: rectangleTiles.left
+        anchors.leftMargin: 5
+        color:gameBoard.colorsList[7]
+        radius: 5
+
+        Text {
+            id: textNewGame
+            color: gameBoard.colorsList[4]
+            text: qsTr("New Game")
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            font.pixelSize: 19
+        }
+
+        MouseArea {
+            id: newGameButton
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            visible: mainButtons
+        }
+    }
+
+    Rectangle {
+        id: undoButtonRect
+        x: 170
+        width: 125
+        height: 40
+        anchors.bottom: rectangleTiles.top
+        anchors.bottomMargin: 10
+        anchors.right: rectangleTiles.right
+        anchors.rightMargin: 5
+        color: gameBoard.colorsList[7]
+        radius: 5
+        visible: gameModeBool
+
+        Text {
+            id: undoText
+            color: gameBoard.colorsList[4]
+            text: qsTr("Undo")
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            font.pixelSize: 19
+        }
+
+        MouseArea {
+            id: undoButton
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            visible: mainButtons
+        }
+    }
+
+    Rectangle {
+        id: rectangleTiles
         y: 80
-        width: (60*numberOfTiles + 10)
-        height: (60*numberOfTiles + 10)
-        color: "#007615"
+        width: (85*numberOfTiles + 10)
+        height: (85*numberOfTiles + 10)
+        color:  gameBoard.colorsList[0]
         radius: 15
         anchors.left: parent.left
         anchors.leftMargin: 20
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 20
+        anchors.top: parent.top
+        anchors.topMargin: 150
 
         Repeater {
             model: numberOfTiles*numberOfTiles
@@ -57,9 +219,10 @@ Rectangle {
                 y: gameBoard.posY
                 Behavior on x { PropertyAnimation { duration: 100}}
                 Behavior on y { PropertyAnimation { duration: 100}}
-                width: 50
-                height: 50
+                width: 75
+                height: 75
                 color: gameBoard.tileColor
+                Behavior on color { PropertyAnimation { duration: 100}}
                 radius: 5
                 z: 1
                 focus: true
@@ -68,13 +231,14 @@ Rectangle {
                     color: gameBoard.tileTextColor
                     text: gameBoard.tileNb
                     z: 2
+                    font.family: textType
                     fontSizeMode: Text.FixedSize
                     textFormat: Text.AutoText
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
-                    font.pixelSize: 24
+                    font.pixelSize: tileTextSize
                 }
             }
         }
@@ -89,9 +253,9 @@ Rectangle {
             Repeater {
                 model: numberOfTiles*numberOfTiles
                 Rectangle {
-                    width: 50
-                    height: 50
-                    color: "#054c0b"
+                    width: 75
+                    height: 75
+                    color:  gameBoard.colorsList[1]
                     radius: 5
                 }
             }
@@ -116,49 +280,6 @@ Rectangle {
                 gameBoard.moveDown();
                 break;
             }
-        }
-    }
-
-    Text {
-        id: title2048
-        color: "#044e08"
-        text: qsTr("2048")
-        font.bold: true
-        font.family: "Verdana"
-        verticalAlignment: Text.AlignVCenter
-        horizontalAlignment: Text.AlignHCenter
-        anchors.top: parent.top
-        anchors.topMargin: 20
-        anchors.left: parent.left
-        anchors.leftMargin: 20
-        font.pixelSize: 29
-    }
-
-    Rectangle {
-        id: newGameButtonRect
-        x: 170
-        y: 67
-        width: 100
-        height: 40
-        color: "#73d216"
-        radius: 5
-
-        Text {
-            id: textNewGame
-            color: "#044e08"
-            text: qsTr("New Game")
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            font.pixelSize: 19
-        }
-
-        MouseArea {
-            id: newGameButton
-            anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
-            visible: a
         }
     }
 }

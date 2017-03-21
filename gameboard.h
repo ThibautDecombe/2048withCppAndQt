@@ -7,6 +7,8 @@
 #include "tile.h"   // Pour créer les Tiles
 #include <stdlib.h> // Pour la fonction random
 #include <time.h>   // Pour initialiser la fonction random
+#include <QStringList>
+#include <QList>
 
 class GameBoard : public QObject    // GameBoard hérite QObject
 {
@@ -20,7 +22,9 @@ public:
     Q_INVOKABLE void moveUp();
     Q_INVOKABLE void moveDown();
     Q_INVOKABLE void newGame();
+    Q_INVOKABLE void undoGame();
     Q_INVOKABLE void setNumberOfTiles(int n);
+    Q_INVOKABLE void defineSetOfColors(int n);
 
     Q_PROPERTY(int posX READ readPosX NOTIFY tileChanged)   // Propriétés à être utilisés
     int readPosX();                                         // Sur qml
@@ -32,23 +36,27 @@ public:
     QString readTileColor();
     Q_PROPERTY(QString tileTextColor READ readTileTextColor NOTIFY tileChanged)
     QString readTileTextColor();
-    Q_PROPERTY(int numberOfTiles READ readNumberOfTiles NOTIFY tileNbChanged)
+    Q_PROPERTY(int numberOfTiles READ readNumberOfTiles NOTIFY tileChanged)
     int readNumberOfTiles();
-
+    Q_PROPERTY(QList<QString> colorsList READ readColorsList NOTIFY tileChanged)
+    QList<QString> readColorsList();
 
 signals:
     void tileChanged();     // Signal pour mettre à jour le qml
-    void tileNbChanged();
+    //void tileNbChanged();
 
 private:
     int numberOfTiles;
     int indX = 0, indY = 0, indNb = 0, indColor = 0, indTextColor = 0;  // indices pour passer les données au qml
 
+    int indColorOptions = 0;
+    QList<QString> colorsList;
 
-    //Tile* tiles[4][4];      // Matrice qui contient les pointeurs des objets crées dynamiquement
     Tile*** tiles;
     Tile** tilesQml;
     int*** matrixNb;
+
+    //Tile* tiles[4][4];      // Matrice qui contient les pointeurs des objets crées dynamiquement
     //Tile* tilesQml[16];     // Liste pour passer les infos au qml
     //int* matrixNb[4][4];    // Matrice pour faire la logique des mouvements
 
@@ -60,7 +68,6 @@ private:
     void deleteTiles();     // On les efface
 
     void verifyRight();     // Mouvement des tiles
-    void verifyRight2();
     void verifyLeft();
     void verifyUp();
     void verifyDown();

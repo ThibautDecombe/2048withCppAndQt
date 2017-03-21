@@ -3,14 +3,17 @@ import QtQuick.Window 2.2
 
 Window {
     property int numberOfTiles: gameBoard.numberOfTiles
-    property int widthWindow: (60*numberOfTiles + 50)
-    property int heightWindow: (60*numberOfTiles + 160)
+    property int widthWindow: (85*numberOfTiles + 50)
+    property int heightWindow: (85*numberOfTiles + 175)
+    property int tileTextSize: 35
+    property string textType: "Verdana"
+    property bool gameModeBool: true
 
     visible: true
     width: widthWindow
     height: heightWindow
     title: qsTr("2048")
-    property bool a: true
+    property bool mainButtons: true
 
     MainForm {
         anchors.fill: parent
@@ -21,9 +24,13 @@ Window {
             onClicked: gameBoard.newGame()
         }
 
+        undoButton{
+            onClicked: gameBoard.undoGame()
+        }
+
         optionsButton{
             onClicked: {
-                a = false;
+                mainButtons = false;
                 var component = Qt.createComponent("Options.qml");
                 console.log("Component Status:", component.status, component.errorString());
                 var window = component.createObject(gameWindow, {"x": 10, "y": 10});

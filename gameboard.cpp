@@ -1,7 +1,9 @@
 #include "gameboard.h"
 
+
 GameBoard::GameBoard(QObject *parent) : QObject(parent)
 {
+    scoreraz();             //depois mudar para recuperar no .txt
     numberOfTiles = 4;
     indColorOptions = 0;
     createTiles();
@@ -44,6 +46,7 @@ void GameBoard::moveDown()
 
 void GameBoard::verifyRight()
 {
+    std::vector<int> listfusion = {};  //pour controler le score
     bool callRandom = false;
     for (int j = 0; j < numberOfTiles; j++){
         for (int k = 0; k < numberOfTiles; k++){ // Pour répéter numberOfTiles fois
@@ -62,6 +65,7 @@ void GameBoard::verifyRight()
                         tiles[i][j]->setFusion(true);
                         changePlaces(i+1, j, i, j);
                         refreshRef();
+                        listfusion.push_back((*matrixNb[i+1][j])/2);    //ajouter score
                         callRandom =  true;
                     }
                 }
@@ -76,12 +80,17 @@ void GameBoard::verifyRight()
     }
     if (callRandom){
         createNewTile();
+        for (int i = 0; i < listfusion.size(); i++){    //
+            add_score(listfusion[i]);
+        }
+        qDebug() << score;
         tileChanged();
     }
 }
 
 void GameBoard::verifyLeft()
 {
+    std::vector<int> listfusion = {};
     bool callRandom = false;
     for (int j = 0; j < numberOfTiles; j++){
         for (int k = 0; k < numberOfTiles; k++){ // Pour répéter numberOfTiles fois
@@ -100,6 +109,7 @@ void GameBoard::verifyLeft()
                         tiles[i][j]->setFusion(true);
                         changePlaces(i-1, j, i, j);
                         refreshRef();
+                        listfusion.push_back((*matrixNb[i-1][j])/2);
                         callRandom = true;
                     }
                 }
@@ -114,12 +124,17 @@ void GameBoard::verifyLeft()
     }
     if (callRandom){
         createNewTile();
+        for (int i = 0; i < listfusion.size(); i++){    //
+            add_score(listfusion[i]);
+        }
+        qDebug() << score;
         tileChanged();
     }
 }
 
 void GameBoard::verifyUp()
 {
+    std::vector<int> listfusion = {};
     bool callRandom = false;
     for (int i = 0; i < numberOfTiles; i++){
         for (int k = 0; k < numberOfTiles; k++){ // Pour répéter numberOfTiles fois
@@ -138,6 +153,7 @@ void GameBoard::verifyUp()
                         tiles[i][j]->setFusion(true);
                         changePlaces(i, j-1, i, j);
                         refreshRef();
+                        listfusion.push_back((*matrixNb[i][j-1])/2);
                         callRandom = true;
                     }
                 }
@@ -152,12 +168,17 @@ void GameBoard::verifyUp()
     }
     if (callRandom){
         createNewTile();
+        for (int i = 0; i < listfusion.size(); i++){    //
+            add_score(listfusion[i]);
+        }
+        qDebug() << score;
         tileChanged();
     }
 }
 
 void GameBoard::verifyDown()
 {
+    std::vector<int> listfusion = {};
     bool callRandom = false;
     for (int i = 0; i < numberOfTiles; i++){
         for (int k = 0; k < numberOfTiles; k++){ // Pour répéter numberOfTiles fois
@@ -176,6 +197,7 @@ void GameBoard::verifyDown()
                         tiles[i][j]->setFusion(true);
                         changePlaces(i, j+1, i, j);
                         refreshRef();
+                        listfusion.push_back((*matrixNb[i][j+1])/2);
                         callRandom = true;
                     }
                 }
@@ -190,8 +212,22 @@ void GameBoard::verifyDown()
     }
     if (callRandom){
         createNewTile();
+        for (int i = 0; i < listfusion.size(); i++){    //
+            add_score(listfusion[i]);
+        }
+        qDebug() << score;
         tileChanged();
     }
+}
+
+void GameBoard::scoreraz()
+{
+    score = 0;
+}
+
+void GameBoard::add_score(int a)
+{
+    score += a;
 }
 
 void GameBoard::createNewTile()
@@ -219,6 +255,7 @@ void GameBoard::createNewTile()
 
 void GameBoard::newGame()
 {
+    scoreraz();
     deleteTiles();
     createTiles();
     defineSetOfColors(indColorOptions);
@@ -337,6 +374,11 @@ QList<QString> GameBoard::readColorsList()
     return colorsList;
 }
 
+int GameBoard::readScore()
+{
+    return score;
+}
+
 void GameBoard::refreshRef()
 {
     for (int i=0; i < numberOfTiles; i++){
@@ -412,3 +454,5 @@ void GameBoard::deleteTiles()
         delete[] tiles;
     }
 }
+
+

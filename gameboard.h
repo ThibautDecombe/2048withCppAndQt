@@ -9,6 +9,8 @@
 #include <time.h>   // Pour initialiser la fonction random
 #include <QStringList>
 #include <QList>
+#include <vector>
+
 
 class GameBoard : public QObject    // GameBoard hérite QObject
 {
@@ -40,6 +42,8 @@ public:
     int readNumberOfTiles();
     Q_PROPERTY(QList<QString> colorsList READ readColorsList NOTIFY tileChanged)
     QList<QString> readColorsList();
+    Q_PROPERTY(int score READ readScore NOTIFY tileChanged)   // Propriétés à être utilisés
+    int readScore();
 
 signals:
     void tileChanged();     // Signal pour mettre à jour le qml
@@ -56,6 +60,8 @@ private:
     Tile** tilesQml;
     int*** matrixNb;
 
+    int score;                //score
+
     //Tile* tiles[4][4];      // Matrice qui contient les pointeurs des objets crées dynamiquement
     //Tile* tilesQml[16];     // Liste pour passer les infos au qml
     //int* matrixNb[4][4];    // Matrice pour faire la logique des mouvements
@@ -71,6 +77,9 @@ private:
     void verifyLeft();
     void verifyUp();
     void verifyDown();
+
+    void scoreraz();        //remise a zero du score
+    void add_score(int a);
 
     void createNewTile();   // Création d'un nouveau tile aleatoirement
 };

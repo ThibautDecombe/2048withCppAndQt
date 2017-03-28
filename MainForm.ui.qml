@@ -80,7 +80,7 @@ Rectangle {
 
         Text {
             id: scoreValue
-            text: qsTr("0")
+            text: qsTr(gameBoard.score.toString())
             font.bold: true
             color:  gameBoard.colorsList[4]
             anchors.top: parent.top

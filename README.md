@@ -3,12 +3,14 @@
 Élaboration du jeu 2048 en utilisant C++ et Qt.
 Groupe projet :
 
-Alexandre Teixeira
+Alexandre Teixeira 
+
 Julia Coelho
 
 Enseignants :
 
-Emanuel Dellandrea
+Emanuel Dellandrea 
+
 Stephane Derrodes
 
 ## Installation du jeu

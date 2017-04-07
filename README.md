@@ -1,5 +1,14 @@
-# 2048 with C++ and Qt
+## 2048 with C++ and Qt
 
-Élaboration du jeu 2048 en utilisant Cpp et Qt
+Élaboration du jeu 2048 en utilisant C++ et Qt.
+Groupe projet :
 
-ADD INFORMATIONS HERE
+Alexandre Teixeira
+Julia Coelho
+
+Enseignants :
+
+Emanuel Dellandrea
+Stephane Derrodes
+
+# Installation du jeu

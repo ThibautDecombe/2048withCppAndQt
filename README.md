@@ -27,4 +27,4 @@ Pour lancer le programme en utilisant Qt Creator, suivez les étapes suivantes :
 
 ## Possibles mises à jour 
 
-Je souhaite encore ajouter quelques fonctionnalités au projet comme par exemple une fonction multiplayer par exemple. 
+Je souhaite encore ajouter quelques fonctionnalités au projet comme par exemple une fonction multiplayer. 

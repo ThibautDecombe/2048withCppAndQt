@@ -11,6 +11,9 @@ GameBoard::GameBoard(QObject *parent) : QObject(parent)
     std::string score_str;
     std::getline(progress, score_str);
     score = std::atoi(score_str.c_str());
+    std::string nbtiles_str;
+    std::getline(progress, nbtiles_str);
+    numberOfTiles = std::atoi(nbtiles_str.c_str());
     int a, b, c, d;
     while (progress >> a >> b >> c >> d)
     {
@@ -23,7 +26,7 @@ GameBoard::GameBoard(QObject *parent) : QObject(parent)
     progress.close();
 
     //scoreraz();             // depois mudar para recuperar no .txt - ok!
-    numberOfTiles = 4;
+    //numberOfTiles = 4;
     indColorOptions = 0;
     createTiles();
     defineSetOfColors(indColorOptions);
@@ -202,6 +205,7 @@ void GameBoard::saveGame()
     progress.open("..//2048//memorycard.txt");
     progress << bestscore << "\n";
     progress << score << "\n";
+    progress << numberOfTiles << "\n";
 //    //bool fin = true;
 //    int clearlist = 0;
     for (int i = 0; i < save_moves.size(); i++){
@@ -502,43 +506,62 @@ void GameBoard::newGame()
 void GameBoard::undoGame()
 {
     qDebug() << "undo";
-    deleteTiles();
-    createTiles();
-    //defineSetOfColors(indColorOptions);
-    refreshRef();
-    scoreraz();
-    save_moves.pop_back();
+    if (save_moves.size() > 2){
+        deleteTiles();
+        createTiles();
+        //defineSetOfColors(indColorOptions);
+        refreshRef();
+        scoreraz();
+        save_moves.pop_back();
 
-    for (int i = 0; i < (save_moves.size() - 1); i++){
-        //tiles[0][0]->setNumber(2);
-        //tiles[0][3]->setNumber(4);
-            //qDebug() << moves[i][1];
-        tiles[(save_moves[i][0])][(save_moves[i][1])] -> setNumber(save_moves[i][2]);
-        if (save_moves[i][3] == 0){
-            loadRight();
+        for (int i = 0; i < (save_moves.size() - 1); i++){
+            //tiles[0][0]->setNumber(2);
+            //tiles[0][3]->setNumber(4);
+                //qDebug() << moves[i][1];
+            tiles[(save_moves[i][0])][(save_moves[i][1])] -> setNumber(save_moves[i][2]);
+            if (save_moves[i][3] == 0){
+                loadRight();
+            }
+            else if (save_moves[i][3] == 1){
+                loadLeft();
+            }
+            else if (save_moves[i][3] == 2){
+                loadUp();
+            }
+            else if (save_moves[i][3] == 3){
+                loadDown();
+            }
         }
-        else if (save_moves[i][3] == 1){
-            loadLeft();
-        }
-        else if (save_moves[i][3] == 2){
-            loadUp();
-        }
-        else if (save_moves[i][3] == 3){
-            loadDown();
-        }
+        tiles[(save_moves.back()[0])][(save_moves.back()[1])] -> setNumber(save_moves.back()[2]);
+        refreshRef();
+        tileChanged();
     }
-    tiles[(save_moves.back()[0])][(save_moves.back()[1])] -> setNumber(save_moves.back()[2]);
-    refreshRef();
-    tileChanged();
 }
 
 void GameBoard::setNumberOfTiles(int n)
 {
+    //deleteTiles();
+    //scoreraz();
+    //numberOfTiles = n;
+    //createTiles();
+    //defineSetOfColors(indColorOptions);
+    //createNewTile();;
+    //tileChanged();
+
+    scoreraz();
     deleteTiles();
     numberOfTiles = n;
     createTiles();
     defineSetOfColors(indColorOptions);
-    createNewTile();;
+    refreshRef();
+    //
+
+    save_moves.clear();
+    //progress.clear();
+    save_moves = {{0, 0, 0, 0}};
+    createNewTile();
+
+    refreshRef();
     tileChanged();
 }
 

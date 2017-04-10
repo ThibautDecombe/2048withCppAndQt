@@ -3,19 +3,222 @@
 
 GameBoard::GameBoard(QObject *parent) : QObject(parent)
 {
-    scoreraz();             //depois mudar para recuperar no .txt
+
+    progress.open("..//2048//memorycard.txt");
+    std::string bestscore_str;
+    std::getline(progress, bestscore_str);
+    bestscore = std::atoi(bestscore_str.c_str());
+    std::string score_str;
+    std::getline(progress, score_str);
+    score = std::atoi(score_str.c_str());
+    int a, b, c, d;
+    while (progress >> a >> b >> c >> d)
+    {
+        moves.push_back({a, b, c, d});
+        //qDebug() << a << " " << b << " " << c << " ";
+        //qDebug() << moves;
+        //qDebug() << moves[0][1];
+    }
+
+    progress.close();
+
+    //scoreraz();             // depois mudar para recuperar no .txt - ok!
     numberOfTiles = 4;
     indColorOptions = 0;
     createTiles();
     defineSetOfColors(indColorOptions);
     refreshRef();
-    createNewTile();
+
+    //createNewTile();                            // criar funcao nova
+    loadGame();
+
     qDebug() << "Object GameBoard created";
     tileChanged();
 }
 
+void GameBoard::loadGame(){
+    save_moves = moves;
+//    if (moves.size() == 1 && moves[0][0] == 0 && moves[0][1] == 0 && moves[0][2] == 0){
+//        moves.erase(moves.begin());
+//    }
+    if (moves[0][0] == 0 && moves[0][1] == 0 && moves[0][2] == 0 && (moves[0][3] == 0 || moves[0][3] == 4) && moves.size() == 1) {
+        createNewTile();
+    }
+    else{
+        for (int i = 0; i < moves.size(); i++){
+        //tiles[0][0]->setNumber(2);
+        //tiles[0][3]->setNumber(4);
+            //qDebug() << moves[i][1];
+            tiles[(moves[i][0])][(moves[i][1])] -> setNumber(moves[i][2]);
+            if (moves[i][3] == 0){
+                loadRight();
+            }
+            else if (moves[i][3] == 1){
+                loadLeft();
+            }
+            else if (moves[i][3] == 2){
+                loadUp();
+            }
+            else if (moves[i][3] == 3){
+                loadDown();
+            }
+        }
+    }
+
+}
+
+void GameBoard::loadRight(){
+    for (int j = 0; j < numberOfTiles; j++){
+        for (int k = 0; k < numberOfTiles; k++){ // Pour répéter numberOfTiles fois
+            for (int i = (numberOfTiles - 2); i >= 0; i--){
+                if (*matrixNb[i][j] != 0){
+                    if (*matrixNb[i+1][j] == 0){
+                        changePlaces(i+1, j, i, j);
+                        refreshRef();
+                    }
+                    if ((*matrixNb[i+1][j] == *matrixNb[i][j]) && tiles[i+1][j]->getFusion() == false && tiles[i][j]->getFusion() == false){
+                        tiles[i+1][j]->resetTile();
+                        refreshRef();
+                        tileChanged();
+                        tiles[i][j]->multNumber();
+                        tiles[i][j]->setFusion(true);
+                        changePlaces(i+1, j, i, j);
+                        refreshRef();
+                    }
+                }
+            }
+        }
+
+    }
+    for (int i=0; i < numberOfTiles; i++){
+        for (int j=0; j < numberOfTiles; j++){
+            tiles[i][j]->setFusion(false);
+        }
+    }
+}
+
+void GameBoard::loadLeft()
+{
+    for (int j = 0; j < numberOfTiles; j++){
+        for (int k = 0; k < numberOfTiles; k++){ // Pour répéter numberOfTiles fois
+            for (int i = 1; i < numberOfTiles; i++){
+                if (*matrixNb[i][j] != 0){
+                    if (*matrixNb[i-1][j] == 0){
+                        changePlaces(i-1, j, i, j);
+                        refreshRef();
+                    }
+                    if ((*matrixNb[i-1][j] == *matrixNb[i][j]) && tiles[i-1][j]->getFusion() == false && tiles[i][j]->getFusion() == false){
+                        tiles[i-1][j]->resetTile();
+                        refreshRef();
+                        tileChanged();
+                        tiles[i][j]->multNumber();
+                        tiles[i][j]->setFusion(true);
+                        changePlaces(i-1, j, i, j);
+                        refreshRef();
+                    }
+                }
+            }
+        }
+
+    }
+    for (int i=0; i < numberOfTiles; i++){
+        for (int j=0; j < numberOfTiles; j++){
+            tiles[i][j]->setFusion(false);
+        }
+    }
+}
+
+void GameBoard::loadUp()
+{
+    for (int i = 0; i < numberOfTiles; i++){
+        for (int k = 0; k < numberOfTiles; k++){ // Pour répéter numberOfTiles fois
+            for (int j = 1; j < numberOfTiles; j++){
+                if (*matrixNb[i][j] != 0){
+                    if (*matrixNb[i][j-1] == 0){
+                        changePlaces(i, j-1, i, j);
+                        refreshRef();
+                    }
+                    if ((*matrixNb[i][j-1] == *matrixNb[i][j]) && tiles[i][j-1]->getFusion() == false && tiles[i][j]->getFusion() == false){
+                        tiles[i][j-1]->resetTile();
+                        refreshRef();
+                        tileChanged();
+                        tiles[i][j]->multNumber();
+                        tiles[i][j]->setFusion(true);
+                        changePlaces(i, j-1, i, j);
+                        refreshRef();
+                    }
+                }
+            }
+        }
+
+    }
+    for (int i=0; i < numberOfTiles; i++){
+        for (int j=0; j < numberOfTiles; j++){
+            tiles[i][j]->setFusion(false);
+        }
+    }
+}
+
+void GameBoard::loadDown()
+{
+    for (int i = 0; i < numberOfTiles; i++){
+        for (int k = 0; k < numberOfTiles; k++){ // Pour répéter numberOfTiles fois
+            for (int j = (numberOfTiles-2); j >= 0; j--){
+                if (*matrixNb[i][j] != 0){;
+                    if (*matrixNb[i][j+1] == 0){
+                        changePlaces(i, j+1, i, j);
+                        refreshRef();
+                    }
+                    if ((*matrixNb[i][j+1] == *matrixNb[i][j]) && tiles[i][j+1]->getFusion() == false && tiles[i][j]->getFusion() == false){
+                        tiles[i][j+1]->resetTile();
+                        refreshRef();
+                        tileChanged();
+                        tiles[i][j]->multNumber();
+                        tiles[i][j]->setFusion(true);
+                        changePlaces(i, j+1, i, j);
+                        refreshRef();
+                    }
+                }
+            }
+        }
+
+    }
+    for (int i=0; i < numberOfTiles; i++){
+        for (int j=0; j < numberOfTiles; j++){
+            tiles[i][j]->setFusion(false);
+        }
+    }
+}
+
+void GameBoard::clearProgress(){
+    progress.open("..//2048//memorycard.txt", std::ofstream::out | std::ofstream::trunc);
+    progress.close();
+}
+
+void GameBoard::saveGame()
+{
+    save_moves.back() = {save_moves.back()[0], save_moves.back()[1], save_moves.back()[2], 4};
+    clearProgress();
+    progress.open("..//2048//memorycard.txt");
+    progress << bestscore << "\n";
+    progress << score << "\n";
+//    //bool fin = true;
+//    int clearlist = 0;
+    for (int i = 0; i < save_moves.size(); i++){
+//        if (fin){
+            progress << save_moves[i][0] << " " << save_moves[i][1] << " " << save_moves[i][2] << " " << save_moves[i][3] << "\n";
+//        }
+//        if (save_moves[i][3] == 4){
+//            clearlist = i;
+//        }
+    }
+
+    progress.close();
+}
+
 GameBoard::~GameBoard()
 {
+    saveGame();
     deleteTiles();
     qDebug() << "Objects destroyed";
 }
@@ -54,6 +257,7 @@ void GameBoard::verifyRight()
                 if (*matrixNb[i][j] != 0){
                     if (*matrixNb[i+1][j] == 0){
                         changePlaces(i+1, j, i, j);
+                        wait(); //
                         refreshRef();
                         callRandom = true;
                     }
@@ -64,6 +268,7 @@ void GameBoard::verifyRight()
                         tiles[i][j]->multNumber();
                         tiles[i][j]->setFusion(true);
                         changePlaces(i+1, j, i, j);
+                        wait(); //
                         refreshRef();
                         listfusion.push_back((*matrixNb[i+1][j])/2);    //ajouter score
                         callRandom =  true;
@@ -79,11 +284,15 @@ void GameBoard::verifyRight()
         }
     }
     if (callRandom){
+        save_moves.back() = {save_moves.back()[0], save_moves.back()[1], save_moves.back()[2], 0};
         createNewTile();
         for (int i = 0; i < listfusion.size(); i++){    //
             add_score(listfusion[i]);
         }
         qDebug() << score;
+        if (score > bestscore){
+            bestscore = score;
+        }
         tileChanged();
     }
 }
@@ -98,6 +307,7 @@ void GameBoard::verifyLeft()
                 if (*matrixNb[i][j] != 0){
                     if (*matrixNb[i-1][j] == 0){
                         changePlaces(i-1, j, i, j);
+                        wait(); //
                         refreshRef();
                         callRandom = true;
                     }
@@ -108,6 +318,7 @@ void GameBoard::verifyLeft()
                         tiles[i][j]->multNumber();
                         tiles[i][j]->setFusion(true);
                         changePlaces(i-1, j, i, j);
+                        wait(); //
                         refreshRef();
                         listfusion.push_back((*matrixNb[i-1][j])/2);
                         callRandom = true;
@@ -123,11 +334,15 @@ void GameBoard::verifyLeft()
         }
     }
     if (callRandom){
+        save_moves.back() = {save_moves.back()[0], save_moves.back()[1], save_moves.back()[2], 1};
         createNewTile();
         for (int i = 0; i < listfusion.size(); i++){    //
             add_score(listfusion[i]);
         }
         qDebug() << score;
+        if (score > bestscore){
+            bestscore = score;
+        }
         tileChanged();
     }
 }
@@ -142,6 +357,7 @@ void GameBoard::verifyUp()
                 if (*matrixNb[i][j] != 0){
                     if (*matrixNb[i][j-1] == 0){
                         changePlaces(i, j-1, i, j);
+                        wait(); //
                         refreshRef();
                         callRandom = true;
                     }
@@ -152,6 +368,7 @@ void GameBoard::verifyUp()
                         tiles[i][j]->multNumber();
                         tiles[i][j]->setFusion(true);
                         changePlaces(i, j-1, i, j);
+                        wait(); //
                         refreshRef();
                         listfusion.push_back((*matrixNb[i][j-1])/2);
                         callRandom = true;
@@ -167,11 +384,15 @@ void GameBoard::verifyUp()
         }
     }
     if (callRandom){
+        save_moves.back() = {save_moves.back()[0], save_moves.back()[1], save_moves.back()[2], 2};
         createNewTile();
         for (int i = 0; i < listfusion.size(); i++){    //
             add_score(listfusion[i]);
         }
         qDebug() << score;
+        if (score > bestscore){
+            bestscore = score;
+        }
         tileChanged();
     }
 }
@@ -186,6 +407,7 @@ void GameBoard::verifyDown()
                 if (*matrixNb[i][j] != 0){;
                     if (*matrixNb[i][j+1] == 0){
                         changePlaces(i, j+1, i, j);
+                        wait(); //
                         refreshRef();
                         callRandom = true;
                     }
@@ -196,6 +418,7 @@ void GameBoard::verifyDown()
                         tiles[i][j]->multNumber();
                         tiles[i][j]->setFusion(true);
                         changePlaces(i, j+1, i, j);
+                        wait();
                         refreshRef();
                         listfusion.push_back((*matrixNb[i][j+1])/2);
                         callRandom = true;
@@ -211,11 +434,15 @@ void GameBoard::verifyDown()
         }
     }
     if (callRandom){
+        save_moves.back() = {save_moves.back()[0], save_moves.back()[1], save_moves.back()[2], 3};
         createNewTile();
         for (int i = 0; i < listfusion.size(); i++){    //
             add_score(listfusion[i]);
         }
         qDebug() << score;
+        if (score > bestscore){
+            bestscore = score;
+        }
         tileChanged();
     }
 }
@@ -249,25 +476,60 @@ void GameBoard::createNewTile()
         int randNumber = rand() % 2 + 1;
         int randIndex = rand() % (vecRand.length()/2 - 1);
         tiles[vecRand.at(randIndex*2)][vecRand.at(randIndex*2+1)]->setNumber(randNumber*2);
+        save_moves.push_back({vecRand.at(randIndex*2), vecRand.at(randIndex*2+1), randNumber*2});
         refreshRef();
     }
 }
 
 void GameBoard::newGame()
 {
-    scoreraz();
-    deleteTiles();
-    createTiles();
-    defineSetOfColors(indColorOptions);
-    refreshRef();
-    createNewTile();
-    refreshRef();
-    tileChanged();
+     scoreraz();
+     deleteTiles();
+     createTiles();
+     defineSetOfColors(indColorOptions);
+     refreshRef();
+     //
+
+     save_moves.clear();
+     //progress.clear();
+     save_moves = {{0, 0, 0, 0}};
+     createNewTile();
+
+     refreshRef();
+     tileChanged();
 }
 
 void GameBoard::undoGame()
 {
     qDebug() << "undo";
+    deleteTiles();
+    createTiles();
+    //defineSetOfColors(indColorOptions);
+    refreshRef();
+    scoreraz();
+    save_moves.pop_back();
+
+    for (int i = 0; i < (save_moves.size() - 1); i++){
+        //tiles[0][0]->setNumber(2);
+        //tiles[0][3]->setNumber(4);
+            //qDebug() << moves[i][1];
+        tiles[(save_moves[i][0])][(save_moves[i][1])] -> setNumber(save_moves[i][2]);
+        if (save_moves[i][3] == 0){
+            loadRight();
+        }
+        else if (save_moves[i][3] == 1){
+            loadLeft();
+        }
+        else if (save_moves[i][3] == 2){
+            loadUp();
+        }
+        else if (save_moves[i][3] == 3){
+            loadDown();
+        }
+    }
+    tiles[(save_moves.back()[0])][(save_moves.back()[1])] -> setNumber(save_moves.back()[2]);
+    refreshRef();
+    tileChanged();
 }
 
 void GameBoard::setNumberOfTiles(int n)
@@ -377,6 +639,11 @@ QList<QString> GameBoard::readColorsList()
 int GameBoard::readScore()
 {
     return score;
+}
+
+int GameBoard::readBestScore()
+{
+    return bestscore;
 }
 
 void GameBoard::refreshRef()

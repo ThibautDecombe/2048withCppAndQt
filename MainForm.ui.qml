@@ -115,7 +115,7 @@ Rectangle {
 
         Text {
             id: bestScoreValue
-            text: qsTr("1000")
+            text: qsTr(gameBoard.bestscore.toString())
             font.bold: true
             color: gameBoard.colorsList[4]
             anchors.top: parent.top

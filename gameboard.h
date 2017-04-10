@@ -10,6 +10,10 @@
 #include <QStringList>
 #include <QList>
 #include <vector>
+#include <fstream>
+#include <string>
+#include <iostream>
+#include <thread>
 
 
 class GameBoard : public QObject    // GameBoard hérite QObject
@@ -44,6 +48,9 @@ public:
     QList<QString> readColorsList();
     Q_PROPERTY(int score READ readScore NOTIFY tileChanged)   // Propriétés à être utilisés
     int readScore();
+    Q_PROPERTY(int bestscore READ readBestScore NOTIFY tileChanged)   // Propriétés à être utilisés
+    int readBestScore();
+
 
 signals:
     void tileChanged();     // Signal pour mettre à jour le qml
@@ -60,28 +67,43 @@ private:
     Tile** tilesQml;
     int*** matrixNb;
 
-    int score;                //score
+    int score;                  // score
+    int bestscore;              // best score
 
-    //Tile* tiles[4][4];      // Matrice qui contient les pointeurs des objets crées dynamiquement
-    //Tile* tilesQml[16];     // Liste pour passer les infos au qml
-    //int* matrixNb[4][4];    // Matrice pour faire la logique des mouvements
+    //Tile* tiles[4][4];        // Matrice qui contient les pointeurs des objets crées dynamiquement
+    //Tile* tilesQml[16];       // Liste pour passer les infos au qml
+    //int* matrixNb[4][4];      // Matrice pour faire la logique des mouvements
 
     void refreshRef();                                  // On refait les références
     void printInfo();                                   // Print pour debug
     void changePlaces(int i1, int j1, int i2, int j2);  // Changer deux tiles de place
 
-    void createTiles();     // On crée les Tiles
-    void deleteTiles();     // On les efface
+    void createTiles();         // On crée les Tiles
+    void deleteTiles();         // On les efface
 
-    void verifyRight();     // Mouvement des tiles
+    void verifyRight();         // Mouvement des tiles
     void verifyLeft();
     void verifyUp();
     void verifyDown();
 
-    void scoreraz();        //remise a zero du score
+    void scoreraz();            //remise a zero du score
     void add_score(int a);
 
-    void createNewTile();   // Création d'un nouveau tile aleatoirement
-};
+    void createNewTile();       // Création d'un nouveau tile aleatoirement
 
+    void loadGame();
+    void loadRight();
+    void loadLeft();
+    void loadUp();
+    void loadDown();
+
+    void saveGame();
+    void clearProgress();
+
+    std::vector<std::vector<int>> save_moves;
+
+    std::fstream progress;      // archive pour sauvegarder le progres + best score
+    std::vector<std::vector<int>> moves;
+
+};
 #endif // GAMEBOARD_H

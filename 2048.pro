@@ -35,4 +35,5 @@ HEADERS += \
     gameboard.h \
     tile.h
 
-DISTFILES +=
+DISTFILES += \
+    memorycard.txt

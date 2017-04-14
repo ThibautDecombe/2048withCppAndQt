@@ -14,6 +14,7 @@
 #include <string>
 #include <iostream>
 #include <thread>
+#include <chrono>
 
 
 class GameBoard : public QObject    // GameBoard hérite QObject
@@ -112,6 +113,13 @@ private:
 
     int winner;                 // 0 : score<2048, 1 : score=2048, 2 : score>2048
     int loser;                  // 0 : en train de jouer, 1 : perdu
+
+    bool verifyLost;
+
+    void verifyLostRight();         // Mouvement des tiles
+    void verifyLostLeft();
+    void verifyLostUp();
+    void verifyLostDown();
 
 
 };

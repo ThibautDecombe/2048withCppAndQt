@@ -287,6 +287,12 @@ Rectangle {
                 var window = component.createObject(gameWindow, {"x": 10, "y": 10});
                 gameBoard.setwinner();
             }
+            if (gameBoard.loser == 1){
+                mainButtons = false;
+                var component2 = Qt.createComponent("Gameover.qml");
+                console.log("Component Status:", component2.status, component2.errorString());
+                var window2 = component2.createObject(gameWindow, {"x": 10, "y": 10});
+            }
         }
     }
 }

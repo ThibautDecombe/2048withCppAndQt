@@ -20,6 +20,17 @@ GameBoard::GameBoard(QObject *parent) : QObject(parent)
     std::string color_str;
     std::getline(progress, color_str);
     indColorOptions = std::atoi(color_str.c_str());
+
+    std::string game_str;
+    std::getline(progress, game_str);
+    if (std::atoi(game_str.c_str()) == 0){
+        gamemode = false;
+    }
+    if (std::atoi(game_str.c_str()) == 1){
+        gamemode = true;
+    }
+
+
     int a, b, c, d;
     while (progress >> a >> b >> c >> d)
     {
@@ -341,6 +352,16 @@ void GameBoard::verifyLostDown()
     }
 }
 
+int GameBoard::multiplier()
+{
+    if (gamemode == 0){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
 //int GameBoard::getwinner()
 //{
 //    return winner;
@@ -349,6 +370,16 @@ void GameBoard::verifyLostDown()
 void GameBoard::setwinner()
 {
     winner = 2;
+}
+
+void GameBoard::setgamenormal()
+{
+    gamemode = false;
+}
+
+void GameBoard::setgamepractice()
+{
+    gamemode = true;
 }
 
 int GameBoard::readWinner()
@@ -371,6 +402,12 @@ void GameBoard::saveGame()
     progress << numberOfTiles << "\n";
     progress << winner << "\n";
     progress << indColorOptions << "\n";
+    if (gamemode == false){
+        progress << 0 << "\n";
+    }
+    if (gamemode == true){
+        progress << 1 << "\n";
+    }
 //    //bool fin = true;
 //    int clearlist = 0;
     for (int i = 0; i < save_moves.size(); i++){
@@ -657,7 +694,7 @@ void GameBoard::scoreraz()
 
 void GameBoard::add_score(int a)
 {
-    score += a;
+    score += a*multiplier();
 }
 
 void GameBoard::createNewTile()
@@ -926,6 +963,11 @@ int GameBoard::readScore()
 int GameBoard::readBestScore()
 {
     return bestscore;
+}
+
+bool GameBoard::readgamemode()
+{
+    return gamemode;
 }
 
 void GameBoard::refreshRef()

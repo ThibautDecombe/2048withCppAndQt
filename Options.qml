@@ -9,13 +9,17 @@ OptionsForm {
     property bool optionsButtons: true
 
     normalButton.onClicked: {
+        gameBoard.setgamenormal()
         gameModeBool = false
         console.log(gameModeBool)
+        gameBoard.newGame()
     }
 
     practiceButton.onClicked: {
+        gameBoard.setgamepractice()
         gameModeBool = true
         console.log(gameModeBool)
+        gameBoard.newGame()
     }
 
     fontTypeButton.onWheel: {

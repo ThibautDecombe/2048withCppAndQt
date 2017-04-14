@@ -33,6 +33,8 @@ public:
     Q_INVOKABLE void setNumberOfTiles(int n);
     Q_INVOKABLE void defineSetOfColors(int n);
     Q_INVOKABLE void setwinner();
+    Q_INVOKABLE void setgamenormal();
+    Q_INVOKABLE void setgamepractice();
 
     Q_PROPERTY(int winner READ readWinner NOTIFY tileChanged)   // Propriétés à être utilisés
     int readWinner();
@@ -56,6 +58,8 @@ public:
     int readScore();
     Q_PROPERTY(int bestscore READ readBestScore NOTIFY tileChanged)   // Propriétés à être utilisés
     int readBestScore();
+    Q_PROPERTY(bool gamemode READ readgamemode NOTIFY tileChanged)   // Propriétés à être utilisés
+    bool readgamemode();
 
 
 signals:
@@ -120,6 +124,10 @@ private:
     void verifyLostLeft();
     void verifyLostUp();
     void verifyLostDown();
+
+    bool gamemode;
+
+    int multiplier();
 
 
 };

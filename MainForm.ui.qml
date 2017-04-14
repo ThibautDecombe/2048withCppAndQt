@@ -179,7 +179,7 @@ Rectangle {
         anchors.rightMargin: 5
         color: gameBoard.colorsList[7]
         radius: 5
-        visible: gameModeBool
+        visible: gameBoard.gamemode
 
         Text {
             id: undoText

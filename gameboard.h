@@ -66,7 +66,7 @@ private:
     int numberOfTiles;
     int indX = 0, indY = 0, indNb = 0, indColor = 0, indTextColor = 0;  // indices pour passer les données au qml
 
-    int indColorOptions = 0;
+    int indColorOptions;
     QList<QString> colorsList;
 
     Tile*** tiles;
@@ -111,7 +111,7 @@ private:
     std::fstream progress;      // archive pour sauvegarder le progres + best score
     std::vector<std::vector<int>> moves;
 
-    int winner;                 // 0 : score<2048, 1 : score=2048, 2 : score>2048
+    int winner;                 // 0 : score < 2048, 1 : score = 2048, 2 : score > 2048
     int loser;                  // 0 : en train de jouer, 1 : perdu
 
     bool verifyLost;

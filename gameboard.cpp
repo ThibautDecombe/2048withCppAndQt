@@ -17,6 +17,9 @@ GameBoard::GameBoard(QObject *parent) : QObject(parent)
     std::getline(progress, win_str);
     winner = std::atoi(win_str.c_str());
     numberOfTiles = std::atoi(nbtiles_str.c_str());
+    std::string color_str;
+    std::getline(progress, color_str);
+    indColorOptions = std::atoi(color_str.c_str());
     int a, b, c, d;
     while (progress >> a >> b >> c >> d)
     {
@@ -25,6 +28,7 @@ GameBoard::GameBoard(QObject *parent) : QObject(parent)
         //qDebug() << moves;
         //qDebug() << moves[0][1];
     }
+    //defineSetOfColors(0);
 
     progress.close();
 
@@ -32,7 +36,7 @@ GameBoard::GameBoard(QObject *parent) : QObject(parent)
 
     //scoreraz();             // depois mudar para recuperar no .txt - ok!
     //numberOfTiles = 4;
-    indColorOptions = 0;
+    //indColorOptions = 0;
     createTiles();
     defineSetOfColors(indColorOptions);
     refreshRef();
@@ -366,6 +370,7 @@ void GameBoard::saveGame()
     progress << score << "\n";
     progress << numberOfTiles << "\n";
     progress << winner << "\n";
+    progress << indColorOptions << "\n";
 //    //bool fin = true;
 //    int clearlist = 0;
     for (int i = 0; i < save_moves.size(); i++){

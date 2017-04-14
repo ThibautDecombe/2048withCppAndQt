@@ -10,5 +10,7 @@
         <file>dog.gif</file>
         <file>YouWon.qml</file>
         <file>YouWonForm.ui.qml</file>
+        <file>Gameover.qml</file>
+        <file>GameoverForm.ui.qml</file>
     </qresource>
 </RCC>

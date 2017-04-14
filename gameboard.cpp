@@ -216,6 +216,11 @@ int GameBoard::readWinner()
     return winner;
 }
 
+int GameBoard::readLoser()
+{
+    return loser;
+}
+
 void GameBoard::saveGame()
 {
     save_moves.back() = {save_moves.back()[0], save_moves.back()[1], save_moves.back()[2], 4};
@@ -318,7 +323,7 @@ void GameBoard::verifyRight()
         }
         for (int j = 0; j < numberOfTiles; j++){
             for (int k = 0; k < numberOfTiles; k++){
-                if ((*matrixNb[j][k]) == 256 && winner == 0){
+                if ((*matrixNb[j][k]) == 2048 && winner == 0){
                     winner = 1;
                 }
             }
@@ -376,7 +381,7 @@ void GameBoard::verifyLeft()
         }
         for (int j = 0; j < numberOfTiles; j++){
             for (int k = 0; k < numberOfTiles; k++){
-                if ((*matrixNb[j][k]) == 256 && winner == 0){
+                if ((*matrixNb[j][k]) == 2048 && winner == 0){
                     winner = 1;
                 }
             }
@@ -433,7 +438,7 @@ void GameBoard::verifyUp()
         }
         for (int j = 0; j < numberOfTiles; j++){
             for (int k = 0; k < numberOfTiles; k++){
-                if ((*matrixNb[j][k]) == 256 && winner == 0){
+                if ((*matrixNb[j][k]) == 2048 && winner == 0){
                     winner = 1;
                 }
             }
@@ -492,7 +497,7 @@ void GameBoard::verifyDown()
         }
         for (int j = 0; j < numberOfTiles; j++){
             for (int k = 0; k < numberOfTiles; k++){
-                if ((*matrixNb[j][k]) == 256 && winner == 0){
+                if ((*matrixNb[j][k]) == 2048 && winner == 0){
                     winner = 1;
                 }
             }
@@ -524,6 +529,7 @@ void GameBoard::createNewTile()
     }
     if (vecRand.length() == 2){
         qDebug() <<  "YOU LOSE";
+        loser = 1;
         return;
     }
     else{
@@ -539,6 +545,7 @@ void GameBoard::newGame()
 {
      scoreraz();
      winner = 0;
+     loser = 0;
      deleteTiles();
      createTiles();
      defineSetOfColors(indColorOptions);

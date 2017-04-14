@@ -9,7 +9,7 @@ Afin d'exécuter le programme, il est nécessaire avoir un compilateur C++ ainsi
 ### Installation
 
 Pour lancer le programme en utilisant Qt Creator, suivez les étapes suivantes :
-- Téléchargez les fichiers de cette page dans le dossier souhaité ;
+- Téléchargez les fichiers de cette page dans le dossier souhaité donnez le nom "2048";
 - Ouvrez le logiciel Qt Creator et cliquez sur "Ouvrir projet" ;
 - Selectionnez le fichier "2048.pro" ;
 - Avec le projet ouvert, construit le projet (ctrl + R) ;

@@ -35,7 +35,6 @@ protected:
     int number;                         // Nombre du Tile
     bool fusion;                        // État de fusion du Tile
 
-    //QVector<QString> setOfColors;
     QStringList setOfColors, setOfColorsText;
 };
 

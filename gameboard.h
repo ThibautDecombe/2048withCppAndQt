@@ -12,9 +12,6 @@
 #include <vector>
 #include <fstream>
 #include <string>
-#include <iostream>
-#include <thread>
-#include <chrono>
 
 
 class GameBoard : public QObject    // GameBoard hérite QObject
@@ -36,12 +33,12 @@ public:
     Q_INVOKABLE void setgamenormal();
     Q_INVOKABLE void setgamepractice();
 
-    Q_PROPERTY(int winner READ readWinner NOTIFY tileChanged)   // Propriétés à être utilisés
+    Q_PROPERTY(int winner READ readWinner NOTIFY tileChanged)           // Propriétés à être utilisés sur qml
     int readWinner();
-    Q_PROPERTY(int loser READ readLoser NOTIFY tileChanged)   // Propriétés à être utilisés
+    Q_PROPERTY(int loser READ readLoser NOTIFY tileChanged)
     int readLoser();
-    Q_PROPERTY(int posX READ readPosX NOTIFY tileChanged)   // Propriétés à être utilisés
-    int readPosX();                                         // Sur qml
+    Q_PROPERTY(int posX READ readPosX NOTIFY tileChanged)
+    int readPosX();
     Q_PROPERTY(int posY READ readPosY NOTIFY tileChanged)
     int readPosY();
     Q_PROPERTY(QString tileNb READ readTileNb NOTIFY tileChanged)
@@ -54,17 +51,16 @@ public:
     int readNumberOfTiles();
     Q_PROPERTY(QList<QString> colorsList READ readColorsList NOTIFY tileChanged)
     QList<QString> readColorsList();
-    Q_PROPERTY(int score READ readScore NOTIFY tileChanged)   // Propriétés à être utilisés
+    Q_PROPERTY(int score READ readScore NOTIFY tileChanged)
     int readScore();
-    Q_PROPERTY(int bestscore READ readBestScore NOTIFY tileChanged)   // Propriétés à être utilisés
+    Q_PROPERTY(int bestscore READ readBestScore NOTIFY tileChanged)
     int readBestScore();
-    Q_PROPERTY(bool gamemode READ readgamemode NOTIFY tileChanged)   // Propriétés à être utilisés
+    Q_PROPERTY(bool gamemode READ readgamemode NOTIFY tileChanged)
     bool readgamemode();
 
 
 signals:
-    void tileChanged();     // Signal pour mettre à jour le qml
-    //void tileNbChanged();
+    void tileChanged();                                                 // Signal pour mettre à jour le qml
 
 private:
     int numberOfTiles;
@@ -80,10 +76,6 @@ private:
     int score;                  // score
     int bestscore;              // best score
 
-    //Tile* tiles[4][4];        // Matrice qui contient les pointeurs des objets crées dynamiquement
-    //Tile* tilesQml[16];       // Liste pour passer les infos au qml
-    //int* matrixNb[4][4];      // Matrice pour faire la logique des mouvements
-
     void refreshRef();                                  // On refait les références
     void printInfo();                                   // Print pour debug
     void changePlaces(int i1, int j1, int i2, int j2);  // Changer deux tiles de place
@@ -96,38 +88,39 @@ private:
     void verifyUp();
     void verifyDown();
 
-    void scoreraz();            //remise a zero du score
-    void add_score(int a);
+    void scoreraz();            // remise a zero du score
+    void add_score(int a);      // incrementation du score
 
     void createNewTile();       // Création d'un nouveau tile aleatoirement
 
-    void loadGame();
-    void loadRight();
+    void loadGame();            // Pour recuperer le jeu precedent
+
+    void loadRight();           // On va "rejouer" les mouvements enregistres
     void loadLeft();
     void loadUp();
     void loadDown();
 
-    void saveGame();
-    void clearProgress();
+    void saveGame();            // savegarder le jeu lors qu`on ferme la fenetre
+    void clearProgress();       // effacer
 
-    std::vector<std::vector<int>> save_moves;
-
-    std::fstream progress;      // archive pour sauvegarder le progres + best score
+    std::vector<std::vector<int>> save_moves;   // vecteurs qui vont enregistrer temporairement les mouvements joues et les nombre aleatoires
     std::vector<std::vector<int>> moves;
+
+    std::fstream progress;      // archive pour sauvegarder le progres
 
     int winner;                 // 0 : score < 2048, 1 : score = 2048, 2 : score > 2048
     int loser;                  // 0 : en train de jouer, 1 : perdu
 
     bool verifyLost;
 
-    void verifyLostRight();         // Mouvement des tiles
+    void verifyLostRight();         // Verifier s`il y a des mouvements possibles avec le tableau rempli
     void verifyLostLeft();
     void verifyLostUp();
     void verifyLostDown();
 
-    bool gamemode;
+    bool gamemode;              // Practie ou Normal
 
-    int multiplier();
+    int multiplier();           // Dans le mode practice on n`a pas de points
 
 
 };

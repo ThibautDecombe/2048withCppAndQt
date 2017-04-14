@@ -13,6 +13,9 @@ GameBoard::GameBoard(QObject *parent) : QObject(parent)
     score = std::atoi(score_str.c_str());
     std::string nbtiles_str;
     std::getline(progress, nbtiles_str);
+    std::string win_str;
+    std::getline(progress, win_str);
+    winner = std::atoi(win_str.c_str());
     numberOfTiles = std::atoi(nbtiles_str.c_str());
     int a, b, c, d;
     while (progress >> a >> b >> c >> d)
@@ -198,6 +201,21 @@ void GameBoard::clearProgress(){
     progress.close();
 }
 
+//int GameBoard::getwinner()
+//{
+//    return winner;
+//}
+
+void GameBoard::setwinner()
+{
+    winner = 2;
+}
+
+int GameBoard::readWinner()
+{
+    return winner;
+}
+
 void GameBoard::saveGame()
 {
     save_moves.back() = {save_moves.back()[0], save_moves.back()[1], save_moves.back()[2], 4};
@@ -206,6 +224,7 @@ void GameBoard::saveGame()
     progress << bestscore << "\n";
     progress << score << "\n";
     progress << numberOfTiles << "\n";
+    progress << winner << "\n";
 //    //bool fin = true;
 //    int clearlist = 0;
     for (int i = 0; i < save_moves.size(); i++){
@@ -297,6 +316,14 @@ void GameBoard::verifyRight()
         if (score > bestscore){
             bestscore = score;
         }
+        for (int j = 0; j < numberOfTiles; j++){
+            for (int k = 0; k < numberOfTiles; k++){
+                if ((*matrixNb[j][k]) == 256 && winner == 0){
+                    winner = 1;
+                }
+            }
+        }
+
         tileChanged();
     }
 }
@@ -346,6 +373,13 @@ void GameBoard::verifyLeft()
         qDebug() << score;
         if (score > bestscore){
             bestscore = score;
+        }
+        for (int j = 0; j < numberOfTiles; j++){
+            for (int k = 0; k < numberOfTiles; k++){
+                if ((*matrixNb[j][k]) == 256 && winner == 0){
+                    winner = 1;
+                }
+            }
         }
         tileChanged();
     }
@@ -397,9 +431,18 @@ void GameBoard::verifyUp()
         if (score > bestscore){
             bestscore = score;
         }
+        for (int j = 0; j < numberOfTiles; j++){
+            for (int k = 0; k < numberOfTiles; k++){
+                if ((*matrixNb[j][k]) == 256 && winner == 0){
+                    winner = 1;
+                }
+            }
+        }
         tileChanged();
     }
 }
+
+
 
 void GameBoard::verifyDown()
 {
@@ -447,6 +490,13 @@ void GameBoard::verifyDown()
         if (score > bestscore){
             bestscore = score;
         }
+        for (int j = 0; j < numberOfTiles; j++){
+            for (int k = 0; k < numberOfTiles; k++){
+                if ((*matrixNb[j][k]) == 256 && winner == 0){
+                    winner = 1;
+                }
+            }
+        }
         tileChanged();
     }
 }
@@ -488,6 +538,7 @@ void GameBoard::createNewTile()
 void GameBoard::newGame()
 {
      scoreraz();
+     winner = 0;
      deleteTiles();
      createTiles();
      defineSetOfColors(indColorOptions);

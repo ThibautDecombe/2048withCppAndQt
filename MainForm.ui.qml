@@ -280,6 +280,13 @@ Rectangle {
                 gameBoard.moveDown();
                 break;
             }
+            if (gameBoard.winner == 1){
+                mainButtons = false;
+                var component = Qt.createComponent("YouWon.qml");
+                console.log("Component Status:", component.status, component.errorString());
+                var window = component.createObject(gameWindow, {"x": 10, "y": 10});
+                gameBoard.setwinner();
+            }
         }
     }
 }

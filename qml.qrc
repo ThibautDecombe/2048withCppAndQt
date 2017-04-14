@@ -8,5 +8,7 @@
         <file>Info.qml</file>
         <file>InfoForm.ui.qml</file>
         <file>dog.gif</file>
+        <file>YouWon.qml</file>
+        <file>YouWonForm.ui.qml</file>
     </qresource>
 </RCC>

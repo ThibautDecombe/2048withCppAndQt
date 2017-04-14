@@ -31,7 +31,10 @@ public:
     Q_INVOKABLE void undoGame();
     Q_INVOKABLE void setNumberOfTiles(int n);
     Q_INVOKABLE void defineSetOfColors(int n);
+    Q_INVOKABLE void setwinner();
 
+    Q_PROPERTY(int winner READ readWinner NOTIFY tileChanged)   // Propriétés à être utilisés
+    int readWinner();
     Q_PROPERTY(int posX READ readPosX NOTIFY tileChanged)   // Propriétés à être utilisés
     int readPosX();                                         // Sur qml
     Q_PROPERTY(int posY READ readPosY NOTIFY tileChanged)
@@ -104,6 +107,10 @@ private:
 
     std::fstream progress;      // archive pour sauvegarder le progres + best score
     std::vector<std::vector<int>> moves;
+
+    int winner;                 // 0 : score<2048, 1 : score=2048, 2 : score>2048
+    //Q_INVOKABLE int getwinner();
+
 
 };
 #endif // GAMEBOARD_H

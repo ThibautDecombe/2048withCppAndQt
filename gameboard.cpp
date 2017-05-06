@@ -387,7 +387,7 @@ void GameBoard::verifyRight()
                 if (*matrixNb[i][j] != 0){
                     if (*matrixNb[i+1][j] == 0){
                         changePlaces(i+1, j, i, j);
-                        wait(); //
+                        //wait();
                         refreshRef();
                         callRandom = true;
                     }
@@ -398,7 +398,7 @@ void GameBoard::verifyRight()
                         tiles[i][j]->multNumber();
                         tiles[i][j]->setFusion(true);
                         changePlaces(i+1, j, i, j);
-                        wait(); //
+                        //wait();
                         refreshRef();
                         listfusion.push_back((*matrixNb[i+1][j])/2);    //ajouter score
                         callRandom =  true;
@@ -444,7 +444,7 @@ void GameBoard::verifyLeft()
                 if (*matrixNb[i][j] != 0){
                     if (*matrixNb[i-1][j] == 0){
                         changePlaces(i-1, j, i, j);
-                        wait(); //
+                        //wait();
                         refreshRef();
                         callRandom = true;
                     }
@@ -455,7 +455,7 @@ void GameBoard::verifyLeft()
                         tiles[i][j]->multNumber();
                         tiles[i][j]->setFusion(true);
                         changePlaces(i-1, j, i, j);
-                        wait(); //
+                        //wait();
                         refreshRef();
                         listfusion.push_back((*matrixNb[i-1][j])/2);
                         callRandom = true;
@@ -501,7 +501,7 @@ void GameBoard::verifyUp()
                 if (*matrixNb[i][j] != 0){
                     if (*matrixNb[i][j-1] == 0){
                         changePlaces(i, j-1, i, j);
-                        wait(); //
+                        //wait();
                         refreshRef();
                         callRandom = true;
                     }
@@ -512,7 +512,7 @@ void GameBoard::verifyUp()
                         tiles[i][j]->multNumber();
                         tiles[i][j]->setFusion(true);
                         changePlaces(i, j-1, i, j);
-                        wait(); //
+                        //wait();
                         refreshRef();
                         listfusion.push_back((*matrixNb[i][j-1])/2);
                         callRandom = true;
@@ -558,7 +558,7 @@ void GameBoard::verifyDown()
                 if (*matrixNb[i][j] != 0){;
                     if (*matrixNb[i][j+1] == 0){
                         changePlaces(i, j+1, i, j);
-                        wait(); //
+                        //wait();
                         refreshRef();
                         callRandom = true;
                     }
@@ -569,7 +569,7 @@ void GameBoard::verifyDown()
                         tiles[i][j]->multNumber();
                         tiles[i][j]->setFusion(true);
                         changePlaces(i, j+1, i, j);
-                        wait();
+                        //wait();
                         refreshRef();
                         listfusion.push_back((*matrixNb[i][j+1])/2);
                         callRandom = true;
